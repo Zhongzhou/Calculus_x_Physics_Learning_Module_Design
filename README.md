@@ -5,7 +5,7 @@ This Repository contains prototype design of online learning modules at the inte
 * This repository contains one prototype learning unit with 3 Calculus focused learning modules and 2 Physics focused learning modules. Each module contains both instructional materials and an expandable isomorphic problem bank with 10+ problems, both created with the assistance of generative AI.
     * Calculus focused modules:
         * Topic: Derivative as the limit of differences
-        * Each problem in isomorphic problem bank builds a math model for a physically feasible situation. See for example: (Average_Rate_of_Change_ProblemBank.pdf)
+        * Each problem in isomorphic problem bank builds a math model for a physically feasible situation.
         * Instead of always using y=f(x), math expression used in each problem is context appropriate.
     * Physics focused modules:
         * Topic: Velocity and Acceleration in 1D
