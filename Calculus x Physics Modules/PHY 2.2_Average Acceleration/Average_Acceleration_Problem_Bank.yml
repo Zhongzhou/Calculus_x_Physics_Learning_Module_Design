@@ -1,0 +1,429 @@
+bank_info:
+    title: Average Acceleration Calculation
+    bank_id: CAL1-PHY1-IACALC-07312025 #Subject-Unit-Abbreviation_of_title_or_any_string-date
+    description: |-
+      This problem bank contains isomorphic problems asking students to calculate average acceleration over a period using a difference quotient. Those problems are intended to be used in a physics learning module. The physics learning module is intended to accompany a calculus learning module prior to the introduction of the concept of derivatives.
+    date_created: 07-31-2025 # Today's date 
+    generation prompts: # The following are the prompts that generated the questions in the problem bank.
+        - prompt 1: | # o4-mini-high
+            I would like to create problems that ask students to calculate average acceleration over a period in time, by first calculating the instantaneous velocity given the position-time function as a 3rd order polynomial (changing acceleration) of time. First, generate 5 problems with the following requirements:
+            1. The problem should be about an object moving in 1-D. Start with describing the context in 1-2 sentences. Avoid scenarios in which the acceleration is constant, such as free fall. Objects should be subjected to a varying force that is either increasing or decreasing during the process.
+            2. Don't always use x(t) as the dependent variable, use context appropriate variables.
+            3. Explain how the distance/height/length etc. is being measured. i.e. from which point is it being measured.
+            4. Ask students to retain the sign of the acceleration answer to indicate whether the velocity is increasing to decreasing.
+        - prompt 2: | # gpt-o4-mini
+            Next, use python to solve each problem, list the title, the instantaneous velocities (with units) at the two given times, and the average acceleration in a table. 
+        - prompt 3: | # gpt-o4-mini
+            For each problem, judge if the velocity and acceleration are appropriate for the context. For each problem for which the numbers are unreasonable, update the polynomial so that the velocity and acceleration found are reasonable for the problem context.
+        - prompt 4: |
+            Now write those five problems with the updated polynomials. Then use python to solve each problem, and produce a table with the correct answer for average acceleration, as well as the two instantaneous velocities at the two given times. Show the table in the chat.
+        - prompt 5: |
+            Write a student facing solution for the first problem. Students have not yet learned derivatives, but have learned and practiced how to find instantaneous velocity by taking the limit of a difference quotient from t + \Delta t in the previous module. Start by reminding the student about the definition of acceleration as the rate of change of velocity over time. Then outline the process: calculate the instantaneous velocities at two different points, and then calculate the average acceleration by dividing the time interval. Then describe how to calculate the two instantaneous velocities, but skip the numerical calculation details. Finally calculate the average acceleration.
+        - prompt 5.1: |
+            Now write the solutions for the next two problems, following the same structure and style as the first problem.
+        - formatting prompt: "./YAML_formatting_prompt.md"
+    associated data:
+        - random number generation script: "./PHY1-F-OFKF-030625-script.py"
+    generation details: # Details of the creation process
+            model: GPT-4o # The model used to generate the questions
+            version: 0.0.1 # The version of the model used
+            last updated: 03-06-2025 # The date of the last update of the generation prompts.
+    authors:
+        - Zhongzhou Chen
+
+questions:
+# The following contents should be copy-pasted from the output of the LLM.
+- numerical:
+    id: q1
+    title: Freight Car on a Track
+    points: 3
+    text: |
+      A freight car is pulled along a straight track by a locomotive whose force increases gradually. The car’s position <latex>s(t)</latex> (in meters) is measured from the station platform at <latex>t = 0</latex>:
+
+      <latex>
+      s(t) = 0.005\,t^3 + 0.10\,t^2
+      </latex>
+
+      where <latex>t</latex> is in seconds.
+      
+      Calculate the average acceleration of the car between <latex>t = 2\,\text{s}</latex> and <latex>t = 5\,\text{s}</latex>, retaining the sign.
+    answer:
+        value: 0.305
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Recall:**  
+          Acceleration tells us how quickly an object’s velocity changes over time. The average acceleration over a time interval is the rate of change of velocity between two moments:
+
+          <latex>
+          \text{Average acceleration} = \frac{\text{Change in velocity}}{\text{Change in time}} = \frac{v_2 - v_1}{t_2 - t_1}
+          </latex>
+
+          where <latex>v_1</latex> and <latex>v_2</latex> are the instantaneous velocities at times <latex>t_1</latex> and <latex>t_2</latex>.
+
+          ---
+          **Step 1: Find Instantaneous Velocities**
+
+          To calculate the average acceleration, we first need to know the instantaneous velocity of the freight car at both <latex>t = 2\,\text{s}</latex> and <latex>t = 5\,\text{s}</latex>.  
+
+          Remember from the previous module: **the instantaneous velocity at time <latex>t</latex> is the limit of the average velocity over a very small interval <latex>\Delta t</latex> as <latex>\Delta t</latex> approaches zero**:
+
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{s(t+\Delta t) - s(t)}{\Delta t}
+          </latex>
+
+          For our problem, the position of the freight car is given by:
+          <latex>
+          s(t) = 0.005\,t^3 + 0.10\,t^2
+          </latex>
+
+          To find the instantaneous velocity at a specific time (such as <latex>t = 2\,\text{s}</latex> or <latex>t = 5\,\text{s}</latex>), you would:
+          - Choose a very small value for <latex>\Delta t</latex> (like <latex>0.001</latex> s)
+          - Calculate <latex>s(t + \Delta t)</latex> and <latex>s(t)</latex>
+          - Compute <latex>v(t) \approx \frac{s(t + \Delta t) - s(t)}{\Delta t}</latex>
+
+          ---
+          **Step 2: Calculate the Average Acceleration**
+
+          Now that we have the two velocities, the average acceleration is:
+
+          <latex>
+          a_{\text{avg}} = \frac{v(5) - v(2)}{5 - 2}
+          </latex>
+
+          Plugging in the velocities (calculated above):
+
+          - At <latex>t = 2\,\text{s}</latex>, <latex>v(2) = 0.460\,\text{m/s}</latex>
+          - At <latex>t = 5\,\text{s}</latex>, <latex>v(5) = 1.375\,\text{m/s}</latex>
+
+          So,
+
+          <latex>
+          a_{\text{avg}} = \frac{1.375\,\text{m/s} - 0.460\,\text{m/s}}{3\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{0.915\,\text{m/s}}{3\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = 0.305\,\text{m/s}^2
+          </latex>
+
+          ---
+          **Final Answer:**  
+          The average acceleration of the freight car between <latex>2\,\text{s}</latex> and <latex>5\,\text{s}</latex> is **<latex>0.305\,\text{m/s}^2</latex>**. The positive sign shows the car is speeding up.
+        on_correct: Great work!
+        on_incorrect: Try again! Review the steps for finding instantaneous velocity and calculating average acceleration.
+
+- numerical:
+    id: q2
+    title: Robotic Arm Extension
+    points: 3
+    text: |
+      A robotic arm extends along a guide, but the motor torque slowly decreases as it warms up. The tip’s position <latex>y(t)</latex> (in centimeters) is measured from the arm’s base at <latex>t = 0</latex>:
+
+      <latex>
+      y(t) = -0.005\,t^3 - 0.05\,t^2 + 2.00\,t + 1.00
+      </latex>
+
+      where <latex>t</latex> is in seconds.
+
+      Find the average acceleration of the arm tip from <latex>t = 1\,\text{s}</latex> to <latex>t = 4\,\text{s}</latex>. Retain the sign.
+    answer:
+        value: -0.175
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Recall:**  
+          Acceleration measures how quickly an object’s velocity changes over time. The average acceleration during a time interval is calculated by:
+
+          <latex>
+          \text{Average acceleration} = \frac{\text{Change in velocity}}{\text{Change in time}} = \frac{v_2 - v_1}{t_2 - t_1}
+          </latex>
+
+          where <latex>v_1</latex> and <latex>v_2</latex> are the instantaneous velocities at the starting and ending times.
+
+          ---
+          **Step 1: Find Instantaneous Velocities**
+
+          First, we need to find the instantaneous velocity of the robotic arm’s tip at <latex>t = 1\,\text{s}</latex> and <latex>t = 4\,\text{s}</latex>.  
+
+          **Remember:** To find instantaneous velocity, use the limit definition you learned previously:
+
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{y(t+\Delta t) - y(t)}{\Delta t}
+          </latex>
+
+          The arm’s position is given by:
+
+          <latex>
+          y(t) = -0.005\,t^3 - 0.05\,t^2 + 2.00\,t + 1.00
+          </latex>
+
+          To calculate the instantaneous velocity at each time:
+
+          - Choose a small <latex>\Delta t</latex> (like <latex>0.001</latex> s)
+          - Compute <latex>y(t+\Delta t)</latex> and <latex>y(t)</latex>
+          - Approximate <latex>v(t)</latex> as <latex>\frac{y(t+\Delta t) - y(t)}{\Delta t}</latex>
+
+          ---
+          **Step 2: Calculate the Average Acceleration**
+
+          Now, use the two velocities to find the average acceleration:
+
+          <latex>
+          a_{\text{avg}} = \frac{v(4) - v(1)}{4 - 1}
+          </latex>
+
+          Given the calculated velocities:
+
+          - <latex>v(1) = 1.885\,\text{cm/s}</latex>
+          - <latex>v(4) = 1.360\,\text{cm/s}</latex>
+
+          So,
+
+          <latex>
+          a_{\text{avg}} = \frac{1.360\,\text{cm/s} - 1.885\,\text{cm/s}}{3\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{-0.525\,\text{cm/s}}{3\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = -0.175\,\text{cm/s}^2
+          </latex>
+
+          ---
+          **Final Answer:**  
+          The average acceleration of the robotic arm’s tip from <latex>1\,\text{s}</latex> to <latex>4\,\text{s}</latex> is **<latex>-0.175\,\text{cm/s}^2</latex>**. The negative sign shows the tip is slowing down.
+        on_correct: Excellent!
+        on_incorrect: Try again! Remember to carefully follow the process for calculating velocities and acceleration.
+
+
+- numerical:
+    id: q3
+    title: Rising Water Level in a Tank
+    points: 3
+    text: |
+      A pump steadily increases its power, raising the water level in a tank. The height <latex>h(t)</latex> (in meters) is measured from the tank’s base at <latex>t = 0</latex>:
+
+      <latex>
+      h(t) = 0.005\,t^3 + 0.010\,t^2 + 0.020\,t
+      </latex>
+
+      where <latex>t</latex> is in seconds.
+
+      Determine the average acceleration of the water’s surface between <latex>t = 0\,\text{s}</latex> and <latex>t = 3\,\text{s}</latex>, keeping the sign.
+    answer:
+        value: 0.065
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Recall:**  
+          Average acceleration tells us how the velocity changes over a time interval. It’s given by:
+
+          <latex>
+          \text{Average acceleration} = \frac{\text{Change in velocity}}{\text{Change in time}} = \frac{v_2 - v_1}{t_2 - t_1}
+          </latex>
+
+          where <latex>v_1</latex> and <latex>v_2</latex> are the instantaneous velocities at the starting and ending times.
+
+          ---
+          **Step 1: Find Instantaneous Velocities**
+
+          We need the instantaneous velocity of the water’s surface at <latex>t = 0\,\text{s}</latex> and <latex>t = 3\,\text{s}</latex>.
+
+          From the last module, the velocity at any time can be found using the limit:
+
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{h(t+\Delta t) - h(t)}{\Delta t}
+          </latex>
+
+          The water level is given by:
+
+          <latex>
+          h(t) = 0.005\,t^3 + 0.010\,t^2 + 0.020\,t
+          </latex>
+
+          To get <latex>v(0)</latex> and <latex>v(3)</latex>:
+
+          - Pick a small <latex>\Delta t</latex>
+          - Calculate the difference quotient as before
+
+          ---
+          **Step 2: Calculate the Average Acceleration**
+
+          Now, plug in the two velocities:
+
+          - <latex>v(0) = 0.020\,\text{m/s}</latex>
+          - <latex>v(3) = 0.215\,\text{m/s}</latex>
+
+          Average acceleration is:
+
+          <latex>
+          a_{\text{avg}} = \frac{v(3) - v(0)}{3 - 0}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{0.215\,\text{m/s} - 0.020\,\text{m/s}}{3\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{0.195\,\text{m/s}}{3\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = 0.065\,\text{m/s}^2
+          </latex>
+
+          ---
+          **Final Answer:**  
+          The average acceleration of the water’s surface from <latex>0\,\text{s}</latex> to <latex>3\,\text{s}</latex> is **<latex>0.065\,\text{m/s}^2</latex>**. The positive sign means the water level is rising faster over time.
+        on_correct: Nice work!
+        on_incorrect: Try again! Review the method for finding instantaneous velocities and average acceleration.
+
+- numerical:
+    id: q4
+    title: Engine Piston Displacement
+    points: 3
+    text: |
+      In a test engine, the piston moves down under rapidly changing pressure. The displacement <latex>d(t)</latex> (in centimeters) is measured from the top dead center at <latex>t = 0</latex>:
+
+      <latex>
+      d(t) = -20\,t^3 + 120\,t^2
+      </latex>
+
+      where <latex>t</latex> is in seconds.
+
+      Calculate the average acceleration of the piston between <latex>t = 0.5\,\text{s}</latex> and <latex>t = 2.0\,\text{s}</latex>, including the sign.
+    answer:
+        value: 90.000
+        tolerance: 0.1
+    feedback:
+        general: |
+          **Recall:**  
+          Average acceleration describes how quickly velocity changes over a given time interval:
+
+          <latex>
+          \text{Average acceleration} = \frac{\text{Change in velocity}}{\text{Change in time}} = \frac{v_2 - v_1}{t_2 - t_1}
+          </latex>
+
+          where <latex>v_1</latex> and <latex>v_2</latex> are the instantaneous velocities at the start and end of the interval.
+
+          ---
+          **Step 1: Find Instantaneous Velocities**
+
+          To find the velocities at <latex>t = 0.5\,\text{s}</latex> and <latex>t = 2.0\,\text{s}</latex>, use the difference quotient method:
+
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{d(t+\Delta t) - d(t)}{\Delta t}
+          </latex>
+
+          The displacement function is:
+
+          <latex>
+          d(t) = -20\,t^3 + 120\,t^2
+          </latex>
+
+          As before, calculate each velocity by picking a very small <latex>\Delta t</latex> and applying the difference quotient.
+
+          ---
+          **Step 2: Calculate the Average Acceleration**
+
+          - <latex>v(0.5) = 105.000\,\text{cm/s}</latex>
+          - <latex>v(2.0) = 240.000\,\text{cm/s}</latex>
+
+          The average acceleration is:
+
+          <latex>
+          a_{\text{avg}} = \frac{v(2.0) - v(0.5)}{2.0 - 0.5}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{240.000\,\text{cm/s} - 105.000\,\text{cm/s}}{1.5\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{135.000\,\text{cm/s}}{1.5\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = 90.000\,\text{cm/s}^2
+          </latex>
+
+          ---
+          **Final Answer:**  
+          The average acceleration of the piston from <latex>0.5\,\text{s}</latex> to <latex>2.0\,\text{s}</latex> is **<latex>90.000\,\text{cm/s}^2</latex>**. The positive value shows the piston is speeding up.
+        on_correct: Excellent!
+        on_incorrect: Try again! Make sure you are correctly applying the steps for average acceleration.
+
+
+- numerical:
+    id: q5
+    title: Braking Car with Aerodynamic Drag
+    points: 3
+    text: |
+      A car slows down along a straight road as aerodynamic drag increases. Its displacement <latex>z(t)</latex> (in meters) is measured from a marker at <latex>t = 0</latex>:
+
+      <latex>
+      z(t) = 0.10\,t^3 - 3.10\,t^2 + 25.9\,t
+      </latex>
+
+      where <latex>t</latex> is in seconds.
+
+      Compute the average acceleration from <latex>t = 1\,\text{s}</latex> to <latex>t = 3\,\text{s}</latex>. Retain the sign.
+    answer:
+        value: -5.000
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Recall:**  
+          Average acceleration tells us how quickly velocity changes over a specific time interval. It is calculated as:
+
+          <latex>
+          \text{Average acceleration} = \frac{\text{Change in velocity}}{\text{Change in time}} = \frac{v_2 - v_1}{t_2 - t_1}
+          </latex>
+
+          where <latex>v_1</latex> and <latex>v_2</latex> are the instantaneous velocities at the start and end of the interval.
+
+          ---
+          **Step 1: Find Instantaneous Velocities**
+
+          First, we need to determine the car’s instantaneous velocity at <latex>t = 1\,\text{s}</latex> and <latex>t = 3\,\text{s}</latex>.
+
+          **Remember:** You learned to find instantaneous velocity using the difference quotient as the interval gets very small:
+
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{z(t+\Delta t) - z(t)}{\Delta t}
+          </latex>
+
+          The displacement of the car is:
+
+          <latex>
+          z(t) = 0.10\,t^3 - 3.10\,t^2 + 25.9\,t
+          </latex>
+
+          To calculate the instantaneous velocities at each time:
+
+          - Choose a very small <latex>\Delta t</latex> (like <latex>0.001</latex> s)
+          - Compute <latex>z(t+\Delta t)</latex> and <latex>z(t)</latex>
+          - Approximate <latex>v(t)</latex> as <latex>\frac{z(t+\Delta t) - z(t)}{\Delta t}</latex>
+
+          ---
+          **Step 2: Calculate the Average Acceleration**
+
+          Now, use the velocities at the two times to find the average acceleration:
+
+          - <latex>v(1) = 20.000\,\text{m/s}</latex>
+          - <latex>v(3) = 10.000\,\text{m/s}</latex>
+
+          <latex>
+          a_{\text{avg}} = \frac{v(3) - v(1)}{3 - 1}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{10.000\,\text{m/s} - 20.000\,\text{m/s}}{2\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = \frac{-10.000\,\text{m/s}}{2\,\text{s}}
+          </latex>
+          <latex>
+          a_{\text{avg}} = -5.000\,\text{m/s}^2
+          </latex>
+
+          ---
+          **Final Answer:**  
+          The average acceleration of the car between <latex>1\,\text{s}</latex> and <latex>3\,\text{s}</latex> is **<latex>-5.000\,\text{m/s}^2</latex>**. The negative sign means the car is slowing down—its velocity is decreasing during this interval.
+        on_correct: Well done!
+        on_incorrect: Try again! Remember to use the definition of average acceleration.

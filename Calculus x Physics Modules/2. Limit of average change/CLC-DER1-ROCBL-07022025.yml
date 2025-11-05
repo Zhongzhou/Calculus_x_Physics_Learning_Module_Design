@@ -1,0 +1,627 @@
+bank_info:
+    title: Rate of change by limits.
+    bank_id: CLC-DER1-ROCBL-07022025 #Subject-Unit-Abbreviation_of_title_or_any_string-date
+    description: |-
+        This problem bank introduces students to the concept of instantaneous rate of change through real-world STEM scenarios. Each problem begins with a nonlinear equation describing how a quantity changes with respect to time, distance, or altitude. To support students who have not yet learned formal derivative rules, the problems use polynomial approximations to model the behavior near a specific point. Students practice computing the rate of change by forming a difference quotient and evaluating its limit, laying the conceptual foundation for understanding derivatives.
+    date_created: 07-02-2025 # Today's date 
+    generation prompts: 
+        # The user uploads the yaml of the average rate of change problem bank.
+        # The prompts are designed for the first 5 questions. Re-use the prompt chain with slight modification for the remainder of the question, in 5 question batches to avoid deterioration of output.
+        - prompt 1: | # using o3. 4o is not smart enough to do this
+            Here is a yaml file which contain many problems. Each problem has a different context and contains one equation that determines the rate of change of a measurement with regard to a variable. Each problem also specified the values of all the constant parameters, and a range of change of the variable.
+            The goal is to modify those problems to teach students about the basic idea of derivatives. However, students at this stage only knows how to compute limits for simple polynomial functions, but don't know how to compute limits. So we need to simplify the main equation into polynomial format. As a first step, for each of the first five questions, do the following:
+                1. Select a value of the variable close to the middle of the specified range of change.
+                2. If the governing equation is not in a polynomial format, derive the Tyler expansion of the equation in the vicinity of the chosen value, to the second order term. Preferably use python and SymPy to do the derivation.
+                3. Simplify the Tyler expansion into the form of y = A + Bx + Cx^2, with A, B and C being numerical parameters (use the variable in the problem, not x). Preferably use python to ensure the accuracy of parameters calculated.
+                4. If the governing equation is already in a polynomial format, present it as a simple polynomial with numerical coefficients, also using python for accuracy of parameters.
+        - prompt 2: | # use GPT 4.5 for better writing.
+                Now write modified versions of the problem body of the first five problems according to the following steps:
+                1. Introduce the context and the main equation with numerical parameters.
+                2. After introducing the main relation, in the context of the original problem, modify the text to say that we are interested in knowing the rate of change in the [measurement] at [the value of the variable we chose (midpoint in the range)]
+                2. explain that to simplify the calculation, around [the value that we chose above], the above relation can be approximated by [the polynomial we just derived above]. 
+                3. Ask students to find how the measurement changes around a given variable. Write the question in the problem context such as "how fast the coffee is cooling 7 minutes after being poured"
+                4. Prompt students to first calculate an expression for the average rate of change over a small interval from x to x + \Delta x [replace with the variable used in the problem], then take the limit as \Delta [variable] goes to zero. Do not display additional information regarding the form of  the difference quotient.
+                Write the text, don't use a programming language. 
+
+        - prompt 3: | # o3 for accurate reasoning
+            Now let's generate the solution for each problem. First, find the correct numerical answer by simply taking the derivative of the approximate polynomial expression, and calculating the value at the selected point.
+
+        - prompt 4: | # GPT-4.5 for better writing. o3 produces very terse solutions.
+            Now that we have the correct answer, write a concise, student facing solution for each problem. The solution should start by calculating the average rate of change using a difference quotient, and then taking the limit. Explain each step in the solution. 
+        - formatting prompt: "./YAML_formatting_prompt.md" # need to do 2 problems at a time to prevent quality deterioration.
+    associated data:
+        - random number generation script: "./PHY1-F-OFKF-030625-script.py"
+    generation details: # Details of the creation process
+            model: GPT-4o # The model used to generate the questions
+            version: 0.0.1 # The version of the model used
+            last updated: 03-06-2025 # The date of the last update of the generation prompts.
+    authors:
+        - Zhongzhou Chen
+
+questions:
+# This needs to be re-done because the output text is too long.
+
+- numerical:
+    id: q1
+    title: Coffee Cooling Rate
+    points: 3
+    text: |
+      A freshly poured cup of hot coffee initially at \(85^\circ\text{C}\) is cooling down in a room kept at a constant \(22^\circ\text{C}\). The temperature of the coffee <latex>T(t)</latex> after <latex>t</latex> minutes can be modeled accurately by the equation:
+
+      <latex>
+      T(t) = 22 + 63 e^{-0.03 t}
+      </latex>
+
+      We are interested in finding out how quickly the coffee is cooling at exactly <latex>t = 7.5</latex> minutes. To simplify our calculation, we approximate the temperature near that time using the polynomial:
+
+      <latex>
+      T(t) \approx 84.8989 - 1.8488\,t + 0.02264\,t^2
+      </latex>
+
+      Using this simplified model, determine how fast the coffee is cooling <latex>7.5</latex> minutes after being poured. 
+
+      First, compute an expression for the average rate of change in temperature over a small interval from <latex>t</latex> to <latex>t + \Delta t</latex>, and then find the instantaneous rate of cooling by taking the limit as <latex>\Delta t</latex> approaches zero.
+
+    answer:
+        value: -1.51
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Step 1: Set up the average rate of change**  
+          We approximate the temperature near <latex>t = 7.5</latex> minutes by:
+          <latex>
+          T(t) \approx 84.8989 - 1.8488\,t + 0.02264\,t^2
+          </latex>
+
+          The average rate of change in temperature over a small interval from <latex>7.5</latex> to <latex>7.5 + \Delta t</latex> is:
+          <latex>
+          \frac{T(7.5 + \Delta t) - T(7.5)}{\Delta t}
+          </latex>
+
+          **Step 2: Evaluate and simplify**  
+          After expanding and simplifying this expression and taking the limit as <latex>\Delta t \to 0</latex>, we find:
+          <latex>
+          -1.8488 + 0.04528 \times 7.5 = -1.51
+          </latex>
+
+          **Final Answer:** The coffee is cooling at approximately <latex>1.51^\circ\mathrm{C}</latex> per minute at <latex>t = 7.5</latex> minutes.
+        on_correct: Great work!
+        on_incorrect: Check your limit setup and try again.
+
+- numerical:
+    id: q2
+    title: Bacterial Growth Rate
+    points: 3
+    text: |
+      A bacterial colony initially contains 500 bacteria and is growing rapidly. The number of bacteria <latex>N(t)</latex> after <latex>t</latex> hours is given by:
+
+      <latex>
+      N(t) = 500 e^{0.4 t}
+      </latex>
+
+      We are interested in the rate of bacterial growth at exactly <latex>t = 1.5</latex> hours. To simplify the calculation, we use the polynomial approximation:
+
+      <latex>
+      N(t) \approx 528.4145 + 145.7695\,t + 72.8848\,t^2
+      </latex>
+
+      Using this simplified equation, determine how fast the bacterial colony is growing <latex>1.5</latex> hours after observation began. 
+
+      Start by writing an expression for the average rate of change in the number of bacteria over a small interval from <latex>t</latex> to <latex>t + \Delta t</latex>, then take the limit as <latex>\Delta t</latex> approaches zero.
+
+    answer:
+        value: 364.42
+        tolerance: 0.1
+    feedback:
+        general: |
+          **Step 1: Set up average rate of change**  
+          Approximate the bacteria count near <latex>t = 1.5</latex> hours:
+          <latex>
+          N(t) \approx 528.4145 + 145.7695\,t + 72.8848\,t^2
+          </latex>
+
+          The average rate of change from <latex>t = 1.5</latex> to <latex>t + \Delta t</latex> is:
+          <latex>
+          \frac{N(1.5 + \Delta t) - N(1.5)}{\Delta t}
+          </latex>
+
+          **Step 2: Evaluate and simplify**  
+          Expanding and simplifying, then taking the limit as <latex>\Delta t \to 0</latex> gives:
+          <latex>
+          145.7695 + 145.7696 \times 1.5 = 364.42
+          </latex>
+
+          **Final Answer:** The bacterial colony is growing at about <latex>364</latex> bacteria per hour at <latex>t = 1.5</latex> hours.
+        on_correct: Nicely done!
+        on_incorrect: Try checking the expansion and limit again.
+
+- numerical:
+    id: q3
+    title: Radioactive Decay Rate
+    points: 3
+    text: |
+      A radioactive sample originally weighing <latex>100\text{ g}</latex> decays over time. The mass of the sample <latex>M(t)</latex> after <latex>t</latex> hours is described by the equation:
+
+      <latex>
+      M(t) = 100 e^{-0.05 t}
+      </latex>
+
+      We want to know how quickly the sample is losing mass exactly <latex>6</latex> hours into the observation. To simplify this, we approximate the mass near that time with:
+
+      <latex>
+      M(t) \approx 99.6401 - 4.8153\,t + 0.09260\,t^2
+      </latex>
+
+      Using this model, determine how fast the mass of the radioactive sample is decreasing <latex>6</latex> hours after observation began. 
+
+      Start by writing an expression for the average rate of change in mass over a small interval from <latex>t</latex> to <latex>t + \Delta t</latex>, and then take the limit as <latex>\Delta t</latex> approaches zero.
+
+    answer:
+        value: -3.70
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Step 1: Set up the average rate of change**  
+          Near <latex>t = 6</latex>, the mass is approximated as:
+          <latex>
+          M(t) \approx 99.6401 - 4.8153\,t + 0.09260\,t^2
+          </latex>
+
+          The average rate of change from <latex>t</latex> to <latex>t + \Delta t</latex> is:
+          <latex>
+          \frac{M(6 + \Delta t) - M(6)}{\Delta t}
+          </latex>
+
+          **Step 2: Evaluate and take the limit**  
+          Simplifying and taking the limit as <latex>\Delta t \to 0</latex>, we get:
+          <latex>
+          -4.8153 + 0.1852 \times 6 = -3.70
+          </latex>
+
+          **Final Answer:** The mass is decreasing at about <latex>3.70 \text{ g/h}</latex> at <latex>t = 6</latex> hours.
+        on_correct: Well done!
+        on_incorrect: Review how you evaluate the limit of the difference quotient.
+
+- numerical:
+    id: q4
+    title: Star Brightness Rate
+    points: 3
+    text: |
+      A star emits radiation whose intensity <latex>I(r)</latex>, measured from a distance <latex>r</latex> (in light-years), follows the equation:
+
+      <latex>
+      I(r) = \frac{100}{r^2}
+      </latex>
+
+      We are interested in determining how rapidly the brightness of the star changes at exactly <latex>2.25</latex> light-years. To simplify our calculation, we approximate the intensity near that point by:
+
+      <latex>
+      I(r) \approx 118.5185 - 70.2332\,r + 11.7055\,r^2
+      </latex>
+
+      Using this simplified model, calculate how fast the intensity of the star’s radiation changes with distance at <latex>r = 2.25</latex> light-years. 
+
+      First, compute the average rate of change from <latex>r</latex> to <latex>r + \Delta r</latex>, then find the instantaneous rate by taking the limit as <latex>\Delta r</latex> approaches zero.
+
+    answer:
+        value: -17.56
+        tolerance: 0.01
+    feedback:
+        general: |
+          **Step 1: Set up average rate of change**  
+          Near <latex>r = 2.25</latex> light-years, the intensity is approximated as:
+          <latex>
+          I(r) \approx 118.5185 - 70.2332\,r + 11.7055\,r^2
+          </latex>
+
+          The average rate of change from <latex>r</latex> to <latex>r + \Delta r</latex> is:
+          <latex>
+          \frac{I(2.25 + \Delta r) - I(2.25)}{\Delta r}
+          </latex>
+
+          **Step 2: Evaluate and take the limit**  
+          Simplifying and taking the limit as <latex>\Delta r \to 0</latex>, we get:
+          <latex>
+          -70.2332 + 23.411 \times 2.25 = -17.56
+          </latex>
+
+          **Final Answer:** The brightness is decreasing at approximately <latex>17.56</latex> intensity units per light-year at <latex>r = 2.25</latex>.
+        on_correct: Excellent!
+        on_incorrect: Try using the simplified polynomial carefully in your limit expression.
+
+- numerical:
+    id: q5
+    title: Air Pressure Rate of Change
+    points: 3
+    text: |
+      Air pressure decreases as altitude increases. The air pressure <latex>P(h)</latex>, measured in kilopascals (kPa), at altitude <latex>h</latex> (in meters) is given by the equation:
+
+      <latex>
+      P(h) = 101.3\,e^{-0.00012 h}
+      </latex>
+
+      We want to understand how quickly air pressure changes at exactly <latex>1100</latex> meters altitude. To simplify the calculation, we approximate the pressure near that point using:
+
+      <latex>
+      P(h) \approx 101.2648 - 0.01206\,h + 6.39 \times 10^{-7}\,h^2
+      </latex>
+
+      Using this model, determine how quickly air pressure changes at <latex>1100</latex> meters. 
+
+      Start by writing an expression for the average rate of change from <latex>h</latex> to <latex>h + \Delta h</latex>, then take the limit as <latex>\Delta h</latex> approaches zero.
+
+    answer:
+        value: -0.01065
+        tolerance: 0.0001
+    feedback:
+        general: |
+          **Step 1: Set up the average rate of change**  
+          Near <latex>h = 1100</latex> meters, the air pressure is approximated by:
+          <latex>
+          P(h) \approx 101.2648 - 0.01206\,h + 6.39 \times 10^{-7}\,h^2
+          </latex>
+
+          The average rate of change from <latex>h</latex> to <latex>h + \Delta h</latex> is:
+          <latex>
+          \frac{P(1100 + \Delta h) - P(1100)}{\Delta h}
+          </latex>
+
+          **Step 2: Evaluate and take the limit**  
+          Simplifying this expression and taking the limit as <latex>\Delta h \to 0</latex>, we get:
+          <latex>
+          -0.01206 + (1.278 \times 10^{-6}) \times 1100 = -0.01065
+          </latex>
+
+          **Final Answer:** The air pressure is decreasing at approximately <latex>0.01065 \text{ kPa/m}</latex> at an altitude of <latex>1100</latex> meters.
+        on_correct: Nice work!
+        on_incorrect: Try expanding the polynomial and evaluating the limit carefully.
+
+- numerical:  # The problem type is a numerical input problem
+    id: q6
+    title: Rate of Growth of Continuous Compound Interest
+    points: 3
+    text: |
+      Suppose an investment of \$1000 grows continuously with an annual interest rate of 6%.  
+      The balance after \(t\) years is  
+
+      <latex>A(t) = 1000 e^{0.06t}</latex>  
+
+      We want to know how fast the investment is growing at <latex>t = 1.25</latex> years.  
+      Around this instant the balance can be approximated by  
+
+      <latex>
+      A(t) \approx 1000.07 + 59.82\,t + 1.94\,t^2
+      </latex>
+
+      **Question:**  
+      How quickly is the investment growing at 1.25 years?  
+      First write an expression for the average rate of change between <latex>t</latex> and <latex>t + \Delta t</latex>,  
+      then take the limit as <latex>\Delta t \to 0</latex>.
+    answer:
+        value: 64.67      # dollars per year
+        tolerance: 0.05
+    feedback:
+        general: |
+
+          We approximate the account balance <latex>A(t)</latex> around <latex>t=1.25</latex> years by the polynomial:
+
+          <latex>
+          A(t) \approx 1000.07 + 59.82\,t + 1.94\,t^2
+          </latex>
+
+          **Step&nbsp;1: Average rate of change**  
+          Calculate the average rate of change of <latex>A(t)</latex> from <latex>1.25</latex> to <latex>1.25+\Delta t</latex>:
+
+          <latex>
+          \frac{A(1.25 + \Delta t) - A(1.25)}{\Delta t}
+          </latex>
+
+          **Step&nbsp;2: Take the limit**  
+          Take the limit as <latex>\Delta t \to 0</latex>:
+
+          <latex>
+          \lim_{\Delta t \to 0}
+            \frac{[1000.07 + 59.82(1.25+\Delta t) + 1.94(1.25+\Delta t)^2]
+                  - [1000.07 + 59.82(1.25) + 1.94(1.25)^2]}
+                 {\Delta t}
+          </latex>
+
+          Evaluating the limit gives
+
+          <latex>
+          59.82 + 3.88(1.25) = 64.67
+          </latex>
+
+          **Final Answer:**  
+          The investment is growing at approximately **\$64.67 per year** at <latex>t = 1.25</latex> years.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q7
+    title: Rate of Change of Diving-Board Deflection
+    points: 3
+    text: |
+      A 600 N person stands on the end of a 3 m diving board.  
+      The vertical deflection <latex>y(x)</latex> in metres at a distance <latex>x</latex> from the fixed support is  
+
+      <latex>
+      y(x) = -1.0\times10^{-3}\,x^{3} + 9.0\times10^{-3}\,x^{2}.
+      </latex>
+
+      We wish to know how rapidly the deflection is changing at <latex>x = 2.25\,\text{m}</latex>.  
+
+      **Question:**  
+      How fast is the board’s deflection changing 2.25 m from the support?  
+      First write an expression for the average rate of change between <latex>x</latex> and <latex>x + \Delta x</latex>,  
+      then take the limit as <latex>\Delta x \to 0</latex>.
+    answer:
+        value: 0.0253      # metres of deflection per metre along the board
+        tolerance: 0.0005
+    feedback:
+        general: |
+
+          The deflection is given exactly by the polynomial:
+
+          <latex>
+          y(x) = -1.0\times10^{-3}\,x^3 + 9.0\times10^{-3}\,x^2
+          </latex>
+
+          **Step&nbsp;1: Average rate of change**  
+          Calculate the average rate of change from <latex>2.25</latex> to <latex>2.25+\Delta x</latex>:
+
+          <latex>
+          \frac{y(2.25 + \Delta x) - y(2.25)}{\Delta x}
+          </latex>
+
+          **Step&nbsp;2: Take the limit**  
+          Take the limit as <latex>\Delta x \to 0</latex>:
+
+          <latex>
+          \lim_{\Delta x \to 0}
+            \frac{[-0.001(2.25+\Delta x)^3 + 0.009(2.25+\Delta x)^2]
+                  - [-0.001(2.25)^3 + 0.009(2.25)^2]}
+                 {\Delta x}
+          </latex>
+
+          This limit simplifies to
+
+          <latex>
+          -0.003(2.25)^2 + 0.018(2.25) = 0.0253
+          </latex>
+
+          **Final Answer:**  
+          The deflection changes at about **0.0253 m per metre** at <latex>x = 2.25\,\text{m}</latex>.
+        on_correct: Great work!
+        on_incorrect: Give it another try!
+
+- numerical:  # The problem type is a numerical input problem
+    id: q8
+    title: Rate of Decrease of Drug Concentration
+    points: 3
+    text: |
+      After a patient is given an intravenous drug, the concentration \(C(t)\) in mg/L is  
+
+      <latex>C(t) = 100 e^{-0.3t}</latex>  
+
+      We want to know how quickly the concentration is changing at <latex>t = 1.5 \text{ h}</latex>.  
+      Around this instant the concentration can be approximated by  
+
+      <latex>
+      C(t) \approx 98.91 - 27.74\,t + 2.87\,t^2
+      </latex>
+
+      **Question:**  
+      How fast is the drug concentration changing 1.5 hours after administration?  
+      First write an expression for the average rate of change between <latex>t</latex> and <latex>t + \Delta t</latex>,  
+      then take the limit as <latex>\Delta t \to 0</latex>.
+    answer:
+        value: -19.13      # mg/L per hour
+        tolerance: 0.05
+    feedback:
+        general: |
+          We approximate the drug concentration <latex>C(t)</latex> around <latex>t=1.5</latex> h by the polynomial:
+
+          <latex>
+          C(t) \approx 98.91 - 27.74\,t + 2.87\,t^2
+          </latex>
+
+          **Step 1: Average rate of change**  
+          Calculate the average rate of change from <latex>1.5</latex> to <latex>1.5 + \Delta t</latex>:
+
+          <latex>
+          \frac{C(1.5 + \Delta t)-C(1.5)}{\Delta t}
+          </latex>
+
+          **Step 2: Take the limit**  
+          Take the limit as <latex>\Delta t \to 0</latex>:
+
+          <latex>
+          \lim_{\Delta t \to 0}\frac{[98.91 - 27.74(1.5+\Delta t) + 2.87(1.5+\Delta t)^2] - [98.91 - 27.74(1.5) + 2.87(1.5)^2]}{\Delta t}
+          </latex>
+
+          Evaluating the limit gives
+
+          <latex>
+          -27.74 + 5.74(1.5) = -19.13
+          </latex>
+
+          **Final Answer:**  
+          The drug concentration is **decreasing at approximately 19.13 mg L\(^{-1}\) per hour** at <latex>t = 1.5</latex> h.
+        on_correct: Nice work!
+        on_incorrect: Have another look and try again!
+
+- numerical:
+    id: q9
+    title: Rate of Temperature Change with Ocean Depth
+    points: 3
+    text: |
+      At a certain location, ocean-water temperature in °C at depth \(d\) m is  
+
+      <latex>T(d) = 2 + 23 e^{-0.05 d}</latex>  
+
+      We want to know how quickly the temperature is changing at <latex>d = 7.5 \text{ m}</latex>.  
+      Around this depth the relationship can be approximated by  
+
+      <latex>
+      T(d) \approx 24.85 - 1.09\,d + 0.0198\,d^2
+      </latex>
+
+      **Question:**  
+      How fast is the temperature changing at a depth of 7.5 m?  
+      First write an expression for the average rate of change between <latex>d</latex> and <latex>d + \Delta d</latex>,  
+      then take the limit as <latex>\Delta d \to 0</latex>.
+    answer:
+        value: -0.79      # °C per metre
+        tolerance: 0.01
+    feedback:
+        general: |
+          We approximate the temperature <latex>T(d)</latex> around <latex>d=7.5</latex> m by the polynomial:
+
+          <latex>
+          T(d) \approx 24.85 - 1.09\,d + 0.0198\,d^2
+          </latex>
+
+          **Step 1: Average rate of change**  
+          Calculate the average rate of change from <latex>7.5</latex> to <latex>7.5 + \Delta d</latex>:
+
+          <latex>
+          \frac{T(7.5 + \Delta d) - T(7.5)}{\Delta d}
+          </latex>
+
+          **Step 2: Take the limit**  
+          Take the limit as <latex>\Delta d \to 0</latex>:
+
+          <latex>
+          \lim_{\Delta d \to 0}\frac{[24.85 - 1.09(7.5+\Delta d) + 0.0198(7.5+\Delta d)^2] - [24.85 - 1.09(7.5) + 0.0198(7.5)^2]}{\Delta d}
+          </latex>
+
+          Evaluating the limit gives
+
+          <latex>
+          -1.09 + 0.0396(7.5) = -0.79
+          </latex>
+
+          **Final Answer:**  
+          The temperature is **decreasing at approximately 0.79 °C per metre** at a depth of <latex>7.5</latex> m.
+        on_correct: Correct!
+        on_incorrect: Double-check your algebra and try again!
+
+- numerical:
+    id: q10
+    title: Rate of Decrease of Heart Rate after Exercise
+    points: 3
+    text: |
+      After an intense workout, a person’s heart rate \(H(t)\) in beats per minute (bpm) at time \(t\) minutes after stopping is  
+
+      <latex>H(t) = 70 + 90 e^{-0.5 t}</latex>
+
+      We want to know how quickly the heart rate is changing at <latex>t = 2.5 \text{ min}</latex>.  
+      Around this instant the relationship can be approximated by  
+
+      <latex>
+      H(t) \approx 148.16 - 29.01\,t + 3.22\,t^2
+      </latex>
+
+      **Question:**  
+      How fast is the heart rate changing 2.5 minutes after exercise stops?  
+      First write an expression for the average rate of change between <latex>t</latex> and <latex>t + \Delta t</latex>,  
+      then take the limit as <latex>\Delta t \to 0</latex>.
+    answer:
+        value: -12.91       # bpm per minute
+        tolerance: 0.05
+    feedback:
+        general: |
+          We approximate the heart rate <latex>H(t)</latex> around <latex>t = 2.5</latex> min by the polynomial:
+
+          <latex>
+          H(t) \approx 148.16 - 29.01\,t + 3.22\,t^2
+          </latex>
+
+          **Step&nbsp;1: Average rate of change**  
+          Calculate the average rate of change from <latex>2.5</latex> to <latex>2.5 + \Delta t</latex>:
+
+          <latex>
+          \frac{H(2.5 + \Delta t) - H(2.5)}{\Delta t}
+          </latex>
+
+          **Step&nbsp;2: Take the limit**  
+          Take the limit as <latex>\Delta t \to 0</latex>:
+
+          <latex>
+          \lim_{\Delta t \to 0}
+            \frac{[148.16 - 29.01(2.5+\Delta t) + 3.22(2.5+\Delta t)^2]
+                  - [148.16 - 29.01(2.5) + 3.22(2.5)^2]}
+                 {\Delta t}
+          </latex>
+
+          Evaluating this limit gives
+
+          <latex>
+          -29.01 + 6.44(2.5) = -12.91
+          </latex>
+
+          **Final Answer:**  
+          The heart rate is **decreasing at approximately 12.91 bpm per minute** at <latex>t = 2.5</latex> min.
+        on_correct: Well done!
+        on_incorrect: Review your difference-quotient steps and try again!
+
+
+- numerical:
+    id: q10
+    title: Rate of Decrease of Heart Rate after Exercise
+    points: 3
+    text: |
+      After an intense workout, a person’s heart rate \(H(t)\) in beats per minute (bpm) at time \(t\) minutes after stopping is  
+
+      <latex>H(t) = 70 + 90 e^{-0.5 t}</latex>
+
+      We want to know how quickly the heart rate is changing at <latex>t = 2.5 \text{ min}</latex>.  
+      Around this instant the relationship can be approximated by  
+
+      <latex>
+      H(t) \approx 148.16 - 29.01\,t + 3.22\,t^2
+      </latex>
+
+      **Question:**  
+      How fast is the heart rate changing 2.5 minutes after exercise stops?  
+      First write an expression for the average rate of change between <latex>t</latex> and <latex>t + \Delta t</latex>,  
+      then take the limit as <latex>\Delta t \to 0</latex>.
+    answer:
+        value: -12.91       # bpm per minute
+        tolerance: 0.05
+    feedback:
+        general: |
+          We approximate the heart rate <latex>H(t)</latex> around <latex>t = 2.5</latex> min by the polynomial:
+
+          <latex>
+          H(t) \approx 148.16 - 29.01\,t + 3.22\,t^2
+          </latex>
+
+          **Step&nbsp;1: Average rate of change**  
+          Calculate the average rate of change from <latex>2.5</latex> to <latex>2.5 + \Delta t</latex>:
+
+          <latex>
+          \frac{H(2.5 + \Delta t) - H(2.5)}{\Delta t}
+          </latex>
+
+          **Step&nbsp;2: Take the limit**  
+          Take the limit as <latex>\Delta t \to 0</latex>:
+
+          <latex>
+          \lim_{\Delta t \to 0}
+            \frac{[148.16 - 29.01(2.5+\Delta t) + 3.22(2.5+\Delta t)^2]
+                  - [148.16 - 29.01(2.5) + 3.22(2.5)^2]}
+                 {\Delta t}
+          </latex>
+
+          Evaluating this limit gives
+
+          <latex>
+          -29.01 + 6.44(2.5) = -12.91
+          </latex>
+
+          **Final Answer:**  
+          The heart rate is **decreasing at approximately 12.91 bpm per minute** at <latex>t = 2.5</latex> min.
+        on_correct: Well done!
+        on_incorrect: Review your difference-quotient steps and try again!

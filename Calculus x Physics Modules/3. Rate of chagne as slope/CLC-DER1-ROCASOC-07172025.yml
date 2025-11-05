@@ -1,0 +1,851 @@
+bank_info:
+    title: Rate of change as slope on curve
+    bank_id: CLC-DER1-ROCASOC-07172025 #Subject-Unit-Abbreviation_of_title_or_any_string-date
+    description: |-
+      This is an example problem bank for assessment problems. 
+      Use this template to create new problem banks by replacing the content with your own questions and details.
+    date_created: 07-17-2025 
+    generation prompts: # The following are the prompts that generated the questions in the problem bank.
+        - prompt 1: | #gpt-o4-mini-high
+            I would like to create different versions of a math problem involving the value and slope of three points on a curve, labeled A, B and C. The question is about comparing the rate of change at three different points. Step 1, please list all possible relations between the slope of the three points, for example, A > B > C, or A = B < C.
+        - prompt 2: | #gpt-o4-mini-high
+            Next, for each of the 13 relation about the slope of the three points, I want to generate 2 possible relationships between the value (y-coordinate) of the three points. The requirements are that: 
+            1. The y-coordinate relation must be written in the same order as the slope relation. (i.e. A,B,C) 
+            2. For each comparison operator in the slope relation, replace with a different operator for value. For example, replace ">" with either "<" or "=". 
+            3. Avoid creating non-determinant relations such as "A < B > C", or "B > A < C". 
+            4. Avoid all equal relations such as "A = B = C" for the value relation.
+            Output the relations in a "long" table form with one column for slope and one column for value. 
+        - prompt 3: |
+            Next step, for each row of the above table, come up with randomized parameters for the slope and value (y-coordinate) of each prompt. The requirements are: 1. the slope parameters are between -1.5 to 1.5, and the y-coordinates between 2 and 8. 2. The relation between the slope and value parameters should follow the relations listed in the table. 3. The difference between every two parameters should be greater than 1 unless they need to be equal to each other. 
+            After that, add three x-coordinates to each row. The x-coordinates should be relatively uniformly distributed in the range of 0-10, with some level of randomness, and with x_A < x_B < x_C.
+        - prompt 4: |
+            Now generate one plot for each row in the above table. Each plot should contain the following elements:
+            1. A smooth curve that passes through all three points and has the corresponding slope at the three points, using the piecewise cubit Hermite method. The curve need to start from x = 0 and end at x = 10.
+            2. Highlight the three points using three round dots, and label them A, B and C according to the rows. (do not use cross!)
+            3. The curve and the dots should be relatively thick to make the value and slope visually significant to the viewer. The dots should be thicker than the curve.
+            Name the diagrams q-1 through q-26, and create a downloadable zip file for all the diagrams
+        - prompt 5: |
+            Generate a new table that contains the following columns:
+            "Question": from q-1 to q-16
+            "Correct Answer": Contains the slope relations.
+            "Value Distractor": Contains the value relations.
+            "Distractor 1": A different relation between A, B and C.
+            "Distractor 2": Another different relation between A, B and C.
+            Distractor 1 and Distractor 2 needs to be different than the Correct Answer and Value Distractor, and not contain non-determinant forms such as "A < B > C" or "A > B < C".
+        - prompt 6: |
+            For each row, come up with a context in which a measurement is changing with a time or distance variable. For example, position is changing with time, or concentration/intensity is changing with distance. Since the curves are generated randomly, the context should be suitable for arbitrary variation, such as involving unknown new material or position of a randomly moving object or animal. 
+            Avoid familiar or known context such as human body or uniform materials such as water. 
+            Also avoid using rates as the measurement, such as velocity, acceleration or flow rate, that are already derivatives of other measures. Use variables such as position or density, which have meaningful rates of change.  
+            The context can involve new, unknown or non-uniform substances. List the brief description of the context situation and the variables changing in two new columns in the above table, and add the columns behind the "Question" column. 
+        - prompt 7: | # open a new chat to avoid context window being too long. Also generate 5 problem bodies at a time to avoid output window limitation. Copy the generated output into a markdown file manually (for the same reason).
+            For each row in the table, write a multiple choice math question according to the context and variables according to the explanation below:
+            1. The question presents students with a diagram of a curve with three points, and asks students to compare the rate of change of the measurement (the slope of the curve) at three different points on the diagram.
+            2. State that scientists, researchers, students, etc. measured the measurement value as it changes, and plotted it on the diagram. 
+            3. Also add a sentence that justifies the fluctuating nature of the curve, such a the material is highly non-uniform, or the motion is varying greatly, etc. according to the context. 
+            4. State that they are interested in/need to know how rapidly the measurement variable is changing at the three different time or position or distance etc. on the diagram.
+            5. Ask students to choose which of the following relations most closely represent the ranking of the rate of change. Use context appropriate language for the concept of rate of change such as "how fast it is moving" or "how rapidly it is changing".
+            4. For now, just write the question id and the problem body, not the choice items.
+
+            Start with the first five questions.
+
+        - prompt 8: | #Open a new chat and upload both the table and the md file generated above.
+            Here is a csv table containing problem id, problem context, and problem choice items. The markdown file contains all the problem bodies. I would like to you to write the problem body and problem choices according ot the following formatting instruction: {replace with yaml formatting prompt content}
+            For the problem body, add a clarification statement that negative rate of change is ranked lower than positive rate of change. 
+            For the solution, draft a simple solution explaining that the rate of change corresponds to the slope of the curve at each point, rather than the value. Keep in mind that negative slopes are smaller than positive slopes. 
+            Problem figures are located in a "diagrams" folder, and named q-1.png to q-26.png. Please include the correct answer choice in the solution.
+            Start with q-1
+        - prompt 8.1: |
+            Please proceed with the next 10 questions, but stop whenever the output window limit is about to be reached. Do not modify the text from the original files, or produce short solution text.
+
+        - formatting prompt: "./YAML_formatting_prompt.md"
+    generation details: # Details of the creation process
+            model: GPT-4o-mini-high # The model used to generate the questions
+            last updated: 07-17-2025 # The date of the last update of the generation prompts.
+    authors:
+        - Zhongzhou Chen
+
+
+questions:
+- multiple_choice:
+    id: q-1
+    title: Rate of Change of Density in Non-Uniform Foam
+    points: 1
+    text: |
+      Scientists measured the density of a highly non-uniform, experimental porous foam sample as a function of distance along its length and plotted the results on the diagram below. Due to the irregular structure of the foam, the density fluctuates greatly from point to point along the sample. The diagram shows the density curve with three marked positions, labeled A, B, and C. The researchers are interested in knowing how rapidly the density is changing at each of these three positions.
+
+      **Which of the following best describes the ranking of how quickly the density is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-1.png
+    answers:
+      - answer:
+          text: A > B > C
+          correct: true
+      - answer:
+          text: A < B < C
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+    feedback:
+      general: |
+        The rate of change at each point is determined by the slope of the curve at that position. The steeper the slope (positive or negative), the greater the rate of change. Remember, the rate of change refers to how quickly the density value increases or decreases at each point, not the actual density value itself. A positive rate of change means the density is increasing, while a negative rate means it is decreasing. Negative rates of change are always ranked lower than positive ones. For this question, the correct ranking is: <latex>A > B > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-2
+    title: Speed Ranking of a Nano-Drone in Unpredictable Environment
+    points: 1
+    text: |
+      A group of researchers tracked the position of a nano-drone as it navigated through a highly unpredictable environment. They plotted the position of the drone as a function of time on the diagram below. Because the drone’s movement is influenced by sudden gusts and obstacles, its path varies significantly over time. The diagram marks three moments in time—A, B, and C—on the position vs. time curve. The team needs to determine at which moment the drone is moving the fastest.
+      **Which of the following most accurately ranks the speed (rate of change of position) of the drone at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-2.png
+    answers:
+      - answer:
+          text: B > A > C
+          correct: true
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+    feedback:
+      general: |
+        The rate of change of position is the speed of the drone at each marked point, corresponding to the steepness of the curve (slope) at each location. To rank the speed, we compare how rapidly the drone’s position is changing at A, B, and C. A larger slope (steeper curve) means a faster speed. Negative slopes (downward movement) are considered lower than positive ones. For this problem, the correct ranking is: <latex>B > A > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-3
+    title: Temperature Change Rate Along a Non-Uniform Rod
+    points: 1
+    text: |
+      Students measured the temperature at various points along a long, non-uniform metal rod and plotted their findings as temperature versus distance on the diagram below. Because the rod is made from metals with different properties fused together, the temperature changes in a highly irregular way along its length. On the graph, points A, B, and C are marked. The students are interested in knowing at which position the temperature is changing most rapidly.
+      **Which of the following best represents the ranking of the rate of change of temperature at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-3.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+    feedback:
+      general: |
+        The rate of temperature change at each point is indicated by the slope of the temperature vs. distance curve at points A, B, and C. Steeper slopes indicate faster changes. When ranking these, remember negative slopes (decreasing temperature) are always lower than positive slopes (increasing temperature). The correct ranking is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-4
+    title: Brightness Rate of Change in a Bioluminescent Organism
+    points: 1
+    text: |
+      Scientists observed the brightness of a newly discovered bioluminescent organism as it glowed over time and plotted their results in the diagram below. Since the organism’s light production fluctuates due to changes in its internal chemistry, the brightness curve varies considerably. The graph shows three points in time labeled A, B, and C. The researchers want to know at which moment the brightness is changing the most quickly.
+      **Which of the following best describes the order of how rapidly the brightness is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-4.png
+    answers:
+      - answer:
+          text: A > B > C
+          correct: true
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+    feedback:
+      general: |
+        The rate at which the brightness is changing at each point is given by the slope of the curve at that point. Positive slopes represent increasing brightness, while negative slopes represent decreasing brightness. Negative rates of change should be ranked lower than positive rates. For this question, the correct ranking is: <latex>A > B > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-5
+    title: Rate of Change of Nanoparticle Concentration
+    points: 1
+    text: |
+      Researchers measured the concentration of synthesized nanoparticles suspended in a special solution as a function of distance from one end of the container. The material is non-uniform, so the concentration changes in unpredictable ways along the distance, as shown in the diagram below. Points A, B, and C are marked on the concentration vs. distance curve. The scientists are interested in which position shows the greatest change in concentration.
+      **Which of the following best ranks the rate at which the concentration is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-5.png
+    answers:
+      - answer:
+          text: C > A > B
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of change at each position is determined by the steepness of the curve at points A, B, and C. Larger positive slopes mean a greater increase in concentration, while negative slopes represent a decrease and are ranked lower. The correct ranking here is: <latex>C > A > B</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-6
+    title: Thickness Rate of Change in a Composite Material
+    points: 1
+    text: |
+      A research team studied the thickness of a newly developed composite material as it varies across the surface of a large test sample. Because the composition is intentionally non-uniform to improve its properties, the thickness changes in a complex way from place to place. The thickness as a function of position is plotted on the diagram below, with three locations marked A, B, and C. The engineers are interested in which location shows the greatest rate of change in thickness.
+      **Which of the following best describes the ranking of how rapidly the thickness is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-6.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: A > B > C
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+    feedback:
+      general: |
+        The rate of change in thickness at each marked location is given by the slope of the curve at A, B, and C. A larger slope means a faster change in thickness. Negative slopes are ranked lower than positive ones. The correct ranking is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-7
+    title: Conductivity Rate of Change in a Non-Homogeneous Semiconductor
+    points: 1
+    text: |
+      Scientists measured the electrical conductivity of a non-homogeneous semiconductor crystal at different positions along its length and plotted their data as shown in the diagram below. The unpredictable distribution of dopants causes the conductivity to fluctuate widely from point to point. The curve marks three specific positions, labeled A, B, and C. The scientists want to know at which position the conductivity is changing most rapidly.
+      **Which of the following best represents the ranking of the rate of change of conductivity at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-7.png
+    answers:
+      - answer:
+          text: C > B > A
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: A > B > C
+          correct: false
+    feedback:
+      general: |
+        The slope of the conductivity curve at points A, B, and C gives the rate of change at each location. A larger, positive slope means faster increasing conductivity, and negative slopes (decreasing) are always ranked lower. Here, the correct order is: <latex>C > B > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-8
+    title: Altitude Change Rate for a Balloon in Turbulent Atmosphere
+    points: 1
+    text: |
+      A team of researchers monitored the altitude of a balloon as it rose and fell in a turbulent, wind-swept atmosphere. The resulting altitude-versus-time curve is shown in the diagram below, with three points in time labeled A, B, and C. Because of the unpredictable air currents, the balloon’s altitude changes irregularly throughout its flight. The team wants to determine at which moment the altitude is changing most quickly.
+      **Which of the following best describes the order of how rapidly the altitude is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-8.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > B > C
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+    feedback:
+      general: |
+        The rate at which the balloon’s altitude is changing is given by the slope of the altitude vs. time curve at A, B, and C. Higher positive slopes indicate faster ascent, while negative slopes (descent) are ranked lower. For this case, the correct ranking is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-9
+    title: Rate of pH Change in a Microfluidic Device
+    points: 1
+    text: |
+      Chemists studied the pH value in a microfluidic device containing a novel, highly reactive solution. Because of rapid and uneven chemical reactions, the pH value varies in a complex pattern as the solution moves along the channel. The pH as a function of position is shown in the diagram below, with positions A, B, and C marked. The chemists are interested in knowing where the pH is changing most rapidly.
+      **Which of the following most accurately represents the ranking of the rate of change of pH at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-9.png
+    answers:
+      - answer:
+          text: C > A > B
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of change of pH at each point is given by the slope of the pH vs. position curve at A, B, and C. The steeper the slope (in either direction), the greater the rate of change. Negative slopes are always ranked lower than positive slopes. The correct ranking for this problem is: <latex>C > A > B</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-10
+    title: Magnetic Field Strength Rate of Change
+    points: 1
+    text: |
+      Researchers observed the magnetic field strength at different points along a newly engineered material containing random clusters of magnetic particles. Due to the irregular arrangement, the magnetic field strength changes in an unpredictable way as a function of distance. The graph below shows magnetic field strength versus position, with three positions labeled A, B, and C. The scientists want to determine where the magnetic field strength is changing most rapidly.
+      **Which of the following best describes the ranking of how quickly the magnetic field strength is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-10.png
+    answers:
+      - answer:
+          text: B > A > C
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The slope of the curve at each position gives the rate at which the magnetic field strength is changing. The greater the slope, the faster the rate of change. Negative slopes are always ranked lower than positive slopes. For this problem, the correct ranking is: <latex>B > A > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-11
+    title: Rate of Change of Refractive Index in a Fiber
+    points: 1
+    text: |
+      A group of material scientists measured the refractive index at different positions along a newly synthesized, highly non-uniform fiber. Because the fiber was created using a variable manufacturing process, the refractive index changes unpredictably along its length. The diagram below shows the refractive index as a function of position, with three locations labeled A, B, and C. The scientists want to know at which location the refractive index is changing most rapidly.
+      **Which of the following best describes the ranking of how quickly the refractive index is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-11.png
+    answers:
+      - answer:
+          text: B > A > C
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of change at each position is determined by the slope of the curve for the refractive index at points A, B, and C. A higher positive slope means a faster increase, while a negative slope means a decrease and is ranked lower. For this case, the correct ranking is: <latex>B > A > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-12
+    title: Population Density Change in Microfluidic Swarm
+    points: 1
+    text: |
+      Biologists recorded the population density of a fast-moving swarm of microorganisms as it moved through a nutrient gradient in a microfluidic device. Because the swarm’s movement is chaotic and the environment is highly variable, the population density fluctuates in a complex pattern over distance. The graph below shows the population density versus distance, with points A, B, and C marked. The biologists are interested in knowing at which location the population density is changing the fastest.
+      **Which of the following most closely represents the ranking of the rate of change of population density at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-12.png
+    answers:
+      - answer:
+          text: B > A > C
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+    feedback:
+      general: |
+        The rate of change in population density at each marked location is determined by the slope of the curve at A, B, and C. Larger slopes indicate more rapid changes. Negative slopes (decreasing density) are always ranked lower than positive slopes (increasing density). For this problem, the correct ranking is: <latex>B > A > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-13
+    title: Light Intensity Rate of Change in Photonic Crystal
+    points: 1
+    text: |
+      A team of physicists measured the intensity of light at different positions along a non-uniform photonic crystal. Because the crystal’s structure is irregular, the intensity of light varies greatly as a function of distance. The resulting intensity-versus-position curve is shown in the diagram below, with three positions labeled A, B, and C. The physicists need to know at which position the light intensity is changing most rapidly.
+      **Which of the following best describes the order of how rapidly the light intensity is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-13.png
+    answers:
+      - answer:
+          text: C > B > A
+          correct: true
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+    feedback:
+      general: |
+        The slope of the light intensity curve at points A, B, and C gives the rate of change at each position. Steeper slopes correspond to faster changes in light intensity. Negative rates are always ranked lower than positive. For this problem, the correct ranking is: <latex>C > B > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-14
+    title: Mineral Concentration Rate in Rock Core
+    points: 1
+    text: |
+      Geologists monitored the mineral concentration along a section of rock core obtained from a newly discovered geological formation. The minerals are distributed in a highly irregular pattern, causing the concentration to fluctuate considerably along the length of the core. The diagram below plots mineral concentration versus position, with locations A, B, and C indicated. The geologists are interested in knowing where the mineral concentration is changing most rapidly.
+      **Which of the following best represents the ranking of the rate of change of mineral concentration at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-14.png
+    answers:
+      - answer:
+          text: A > B > C
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+    feedback:
+      general: |
+        The rate at which mineral concentration is changing at each point is given by the slope of the curve at A, B, and C. Steeper slopes indicate faster changes. Negative slopes are always ranked lower than positive slopes. For this problem, the correct ranking is: <latex>A > B > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-15
+    title: Stress Change Rate in 3D-Printed Composite
+    points: 1
+    text: |
+      Engineers tested the stress experienced by different regions of a 3D-printed component made from a non-uniform composite material. Due to variations in material composition and printing conditions, the stress changes in a complicated way as a function of position. The diagram below shows stress versus position, with points A, B, and C labeled. The engineers want to determine at which position the stress is changing most rapidly.
+      **Which of the following best describes the ranking of how quickly the stress is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-15.png
+    answers:
+      - answer:
+          text: C > A > B
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of stress change at each location is determined by the slope of the curve at A, B, and C. Steeper slopes mean a more rapid change in stress. Negative slopes (decreasing stress) are always ranked lower than positive slopes. For this problem, the correct ranking is: <latex>C > A > B</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-16
+    title: Humidity Rate of Change in Artificial Forest
+    points: 1
+    text: |
+      A group of atmospheric scientists tracked the humidity at different altitudes above a new type of artificial forest. Because the forest canopy is highly irregular and influences air flow, the humidity changes in complex ways with altitude. The diagram below shows the humidity as a function of height, with three altitudes marked A, B, and C. The scientists want to determine at which altitude the humidity is changing most rapidly.
+      **Which of the following best describes the ranking of how quickly the humidity is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-16.png
+    answers:
+      - answer:
+          text: C > B > A
+          correct: true
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+    feedback:
+      general: |
+        The rate at which humidity changes at each point is found from the slope of the humidity vs. altitude curve. Steeper slopes indicate faster changes. Negative rates (decreasing humidity) are always ranked lower than positive. For this problem, the correct ranking is: <latex>C > B > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-17
+    title: Salinity Rate of Change in Microchannel
+    points: 1
+    text: |
+      A research team measured the salinity of a solution at various points along a microchannel filled with a highly reactive and non-uniform chemical mixture. Due to ongoing reactions and uneven mixing, the salinity fluctuates sharply with position. The plot below shows salinity versus distance, with locations A, B, and C marked on the curve. The researchers are interested in knowing at which position the salinity is changing the most rapidly.
+      **Which of the following most accurately represents the ranking of the rate of change of salinity at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-17.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+    feedback:
+      general: |
+        The rate of change in salinity at each point is found by comparing the slopes at A, B, and C on the curve. The steeper the slope, the faster the change in salinity. Negative rates are always ranked lower. The correct ranking here is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-18
+    title: Sound Intensity Change Rate in Variable Tunnel
+    points: 1
+    text: |
+      Engineers studied the sound intensity at different spots along a tunnel built from a material with highly variable acoustic properties. Because the sound is reflected and absorbed unevenly, the intensity fluctuates irregularly as a function of position. The sound intensity versus distance is shown on the diagram below, with positions A, B, and C labeled. The engineers need to know where the sound intensity is changing most rapidly.
+      **Which of the following best describes the order of how rapidly the sound intensity is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-18.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > B > C
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+    feedback:
+      general: |
+        The slope of the sound intensity curve at each location indicates the rate of change. Greater (steeper) slopes mean more rapid changes. Negative slopes are always ranked lower than positive slopes. The correct ranking is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-19
+    title: Voltage Rate of Change in Non-Uniform Polymer Circuit
+    points: 1
+    text: |
+      Physicists investigated the voltage along a circuit made of a newly synthesized, non-uniform conductive polymer. Because the conductivity varies across the material, the voltage changes unpredictably as a function of distance. The voltage versus position curve is plotted on the diagram below, with three positions marked A, B, and C. The team wants to know at which position the voltage is changing most rapidly.
+      **Which of the following best describes the ranking of how quickly the voltage is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-19.png
+    answers:
+      - answer:
+          text: B > A > C
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The slope of the voltage curve at each position determines the rate at which the voltage changes. A steeper slope means a greater rate of change. Negative slopes (decreasing voltage) are always ranked lower than positive ones. The correct ranking is: <latex>B > A > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-20
+    title: Dissolved Oxygen Change Rate in Stream
+    points: 1
+    text: |
+      Ecologists measured the dissolved oxygen concentration at various points along a stream contaminated with patches of organic debris. Because the distribution of debris and flow patterns are irregular, the oxygen concentration fluctuates in a complicated way with distance. The diagram below shows the dissolved oxygen concentration versus distance, with three positions labeled A, B, and C. The ecologists are interested in where the oxygen concentration is changing most rapidly.
+      **Which of the following best represents the ranking of the rate of change of dissolved oxygen concentration at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-20.png
+    answers:
+      - answer:
+          text: C > B > A
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: A > B > C
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of change of dissolved oxygen concentration at each location is determined by the slope at points A, B, and C. A steeper slope means a greater rate of change. Negative rates are always ranked lower than positive rates. The correct ranking is: <latex>C > B > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-21
+    title: Chlorophyll Content Change Rate in Plant Stem
+    points: 1
+    text: |
+      A team of botanists recorded the chlorophyll content at different heights along the stem of an experimental plant variety. Because the plant’s internal structure is highly variable, the chlorophyll content fluctuates sharply with height. The diagram below shows chlorophyll content as a function of height, with points A, B, and C marked. The botanists are interested in knowing at which point the chlorophyll content is changing most rapidly.
+      **Which of the following best describes the ranking of how quickly the chlorophyll content is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-21.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: B > A > C
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+    feedback:
+      general: |
+        The rate of change in chlorophyll content at each position is indicated by the slope at A, B, and C. The steeper the slope, the greater the rate of change. Negative slopes (decreasing content) are always ranked lower. For this problem, the correct ranking is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-22
+    title: Electrical Potential Change Rate in Superconductor
+    points: 1
+    text: |
+      Physicists measured the electrical potential at several points along a length of a newly engineered superconductor that has a non-uniform internal composition. Because of the unpredictable distribution of defects and impurities, the electrical potential varies greatly along the material. The electrical potential as a function of distance is shown in the diagram below, with positions A, B, and C indicated. The researchers need to know at which position the electrical potential is changing most rapidly.
+      **Which of the following most closely represents the ranking of the rate of change of electrical potential at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-22.png
+    answers:
+      - answer:
+          text: A > C > B
+          correct: true
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+    feedback:
+      general: |
+        The slope of the electrical potential curve at each position gives the rate at which the potential is changing. Steeper slopes represent faster rates of change. Negative slopes (decreasing potential) are always ranked lower than positive slopes. The correct ranking is: <latex>A > C > B</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-23
+    title: Nutrient Concentration Change in Plant Root
+    points: 1
+    text: |
+      Researchers observed the nutrient concentration along the root of a genetically modified plant growing in non-uniform soil. Due to the varying soil quality and plant metabolism, the nutrient concentration changes in an unpredictable pattern along the root. The diagram below plots nutrient concentration as a function of position, with three points labeled A, B, and C. The scientists want to know at which point the nutrient concentration is changing most rapidly.
+      **Which of the following best describes the ranking of how rapidly the nutrient concentration is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-23.png
+    answers:
+      - answer:
+          text: C > B > A
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of change in nutrient concentration at each point is given by the slope of the curve at A, B, and C. Steeper slopes mean greater change. Negative rates are always ranked lower than positive rates. The correct ranking is: <latex>C > B > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-23
+    title: Nutrient Concentration Change in Plant Root
+    points: 1
+    text: |
+      Researchers observed the nutrient concentration along the root of a genetically modified plant growing in non-uniform soil. Due to the varying soil quality and plant metabolism, the nutrient concentration changes in an unpredictable pattern along the root. The diagram below plots nutrient concentration as a function of position, with three points labeled A, B, and C. The scientists want to know at which point the nutrient concentration is changing most rapidly.
+      **Which of the following best describes the ranking of how rapidly the nutrient concentration is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-23.png
+    answers:
+      - answer:
+          text: C > B > A
+          correct: true
+      - answer:
+          text: B > C > A
+          correct: false
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: A > C > B
+          correct: false
+    feedback:
+      general: |
+        The rate of change in nutrient concentration at each point is given by the slope of the curve at A, B, and C. Steeper slopes mean greater change. Negative rates are always ranked lower than positive rates. The correct ranking is: <latex>C > B > A</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-24
+    title: Thermal Conductivity Change Rate in Heat Shield
+    points: 1
+    text: |
+      A group of engineers measured the thermal conductivity at different positions along a prototype heat shield composed of several experimental layers. Because of variations in layer thickness and composition, the thermal conductivity fluctuates irregularly along the shield. The diagram below shows thermal conductivity versus position, with three locations marked A, B, and C. The engineers are interested in knowing where the thermal conductivity is changing most rapidly.
+      **Which of the following best represents the ranking of the rate of change of thermal conductivity at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-24.png
+    answers:
+      - answer:
+          text: B > A > C
+          correct: true
+      - answer:
+          text: A > C > B
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > C > A
+          correct: false
+    feedback:
+      general: |
+        The rate at which thermal conductivity changes is given by the slope of the curve at A, B, and C. Greater slopes mean faster change. Negative slopes are always ranked lower than positive slopes. The correct ranking is: <latex>B > A > C</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-25
+    title: Salinity Gradient Change Rate in Ocean Depth
+    points: 1
+    text: |
+      Oceanographers studied the salinity gradient at various depths in a region of ocean water influenced by a patchwork of underwater vents. Due to the unpredictable release of minerals from the vents, the salinity changes in a complicated way with depth. The graph below displays salinity as a function of depth, with three depths marked A, B, and C. The oceanographers want to know at which depth the salinity is changing most rapidly.
+      **Which of the following best describes the order of how quickly the salinity is changing at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-25.png
+    answers:
+      - answer:
+          text: A > C > B
+          correct: true
+      - answer:
+          text: C > A > B
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+      - answer:
+          text: A > B > C
+          correct: false
+    feedback:
+      general: |
+        The rate of change in salinity at each depth is given by the slope at A, B, and C on the curve. Steeper slopes indicate a greater rate of change. Negative rates (decreasing salinity) are always ranked lower. The correct ranking is: <latex>A > C > B</latex>.
+      on_correct:
+      on_incorrect:
+
+- multiple_choice:
+    id: q-26
+    title: Strain Change Rate in Flexible Robotic Arm
+    points: 1
+    text: |
+      Engineers measured the strain at different points along a flexible robotic arm constructed from a non-uniform composite material. Because the composition varies intentionally to optimize performance, the strain fluctuates as a function of position along the arm. The strain versus position graph is shown below, with points A, B, and C marked. The team is interested in knowing at which location the strain is changing most rapidly.
+      **Which of the following most accurately represents the ranking of the rate of change of strain at points A, B, and C?**
+
+      *Clarification:* When ranking the rate of change, remember that a negative rate of change is ranked lower than a positive rate of change.
+    figure: diagrams/q-26.png
+    answers:
+      - answer:
+          text: B > C > A
+          correct: true
+      - answer:
+          text: A > B > C
+          correct: false
+      - answer:
+          text: C > B > A
+          correct: false
+      - answer:
+          text: B > A > C
+          correct: false
+    feedback:
+      general: |
+        The rate at which strain is changing at each location is given by the slope of the curve at A, B, and C. Steeper slopes indicate faster changes. Negative rates are always ranked lower than positive. For this problem, the correct ranking is: <latex>B > C > A</latex>.
+      on_correct:
+      on_incorrect:

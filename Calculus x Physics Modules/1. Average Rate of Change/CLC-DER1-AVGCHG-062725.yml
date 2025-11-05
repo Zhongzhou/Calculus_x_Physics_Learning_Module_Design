@@ -1,0 +1,1275 @@
+bank_info:
+    title: Average Rate of Change 
+    bank_id: CLC-DER1-AVGCHG-062725 #Subject-Unit-Abbreviation_of_title_or_any_string-date
+    description: |-
+      This problem bank contains questions designed to help students calculate the average rate of change of a variable in various contexts. The problems are suitable for first-year college introductory level students and cover a range of topics including physics, biology, and astronomy.
+      Each question provides a real-world scenario where a variable changes as a function of time or another measurement, requiring students to apply the concept of average rate of change.
+    date_created:  # Today's date 
+    generation prompts: # The following are the prompts that generated the questions in the problem bank.
+        - prompt 1: |-
+            I want to write problems that asks students to calculate the average rate of change of a variable. For that purpose, I want to find contexts in which a variable's value changes as a function of a measurement. The measurement can either be time, or a spatial coordinate such as position, distance, lengths or height, or other similar variables.
+            Preferably the changing variable is not simply proportional to the measurement.
+            Here are some examples:
+            1. The position of a moving object changes as a function of time. 
+            2. The height of a mountain changes as a function of its horizontal location. The rate of change in height is the mountain's steepness.
+            3. The light intensity under water decays exponentially as a function of the water depth. 
+            Find more examples of this type of changes in a wide variety of areas such as physics, astronomy, chemistry, biology, geology, engineering, finance and other areas.
+            For each relation:
+            List the variable and the measurement
+            State the mathematical relation.
+            Suggest a context. 
+            The problems will be designed for first year college introductory level students, so the context should avoid overly technical terms and preferably use everyday phenomena. Keep a good balance between time and non-time measurements. 
+        - prompt 1.5: |-
+            Examine those relations, and replace any linear relations with a non-linear relation.
+        - prompt 2: |-
+            Now for each of the situations listed above, generate a set of reasonable estimated numbers for the variables involved. The variables should be appropriate for the suggested context. List the context again before listing the numbers. 
+            The interval of measurement (i.e. time or distance, etc.) over which the change happens should be relatively short/small, so the average can be a good estimate for the local rate of change. 
+        - prompt 3: |-
+            Now for the first five contexts and corresponding estimated numbers, draft a problem body for each following the steps below:  
+            First, introduce the relationship governing the process, and explain the meeting of all the parameters. If the relation has as known name, introduce the name. Both the rule and the parameters should be explained in a way that is understandable for people with no knowledge in the field. Do not use numbers in this step.
+            Next, create a detail rich description of a real-world situation based on the context and the estimated numerical values. 
+            Third, ask students to calculate the average rate of change over a relatively small range in the dependent variable. Do not use the exact phrase "average rate of change", rather, use simple to understand, in-context language such as "between those times, on average how many degrees of cooling would take place as each minute goes by?". 
+            Do not include explicit headings for each step.
+        - prompt 3.5: |-
+            Yes, please proceed for the next batch
+        - prompt 4: |-
+            Now for the first 5 problems, calculate the correct answer for each problem. You should use python for numerical calculation to ensure accuracy.
+        - prompt 5: |-
+            For record keeping, please generate a table containing the following columns:
+            1. The problem number.
+            2. The problem title
+            3. The brief description of the context.
+            4. The numerical answer (keep the sign of the numerical value, round to two decimal places after zero)
+            5. The unit of the answer
+        - prompt 6:
+            For the first problem, please create a concise, student facing solution. First explain in general how to calculate the average rate of change, then provide a symbolic representation of the average rate of change for this context. Substitute the numbers last. Finally, point out why the sign of the answer is positive/negative.
+        - formatting prompt: "./YAML_formatting_prompt.md"
+    associated data:
+    generation details: # Details of the creation process
+            model: GPT-4o # The model used to generate the questions
+            version: 0.0.1 # The version of the model used
+            last updated:  # The date of the last update of the generation prompts.
+    authors:
+        - Zhongzhou Chen
+
+questions:
+# The following contents should be copy-pasted from the output of the LLM.
+- numerical:
+    id: q1
+    title: Cooling of a cup of coffee
+    points: 3
+    text: |
+      When an object is hotter than its surroundings, it cools down gradually as it gives heat to the environment. This process can often be described by a rule called **Newton’s Law of Cooling**. According to this rule, the temperature of the object at any moment depends on how much warmer it is than the surrounding air, and it decreases exponentially over time. The equation that describes this is:
+
+      <latex>
+      T(t) = T_{\text{env}} + (T_0 - T_{\text{env}}) e^{-kt}
+      </latex>
+
+      In this equation:
+
+      * <latex>T(t)</latex> is the temperature of the object at time <latex>t</latex>,
+      * <latex>T_{\text{env}}</latex> is the constant temperature of the surrounding air,
+      * <latex>T_0</latex> is the initial temperature of the object when cooling starts,
+      * <latex>k</latex> is a constant that describes how quickly the object cools,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      You pour a fresh cup of coffee in your kitchen. When poured, the coffee’s temperature is 85°C, and the room temperature is 22°C. The cooling happens rather gently, with a cooling constant of 0.03 per minute. You start paying attention 5 minutes after pouring the coffee. At that point, the coffee has already cooled a bit, but is still warm. You keep checking for the next 5 minutes, from the 5th to the 10th minute after pouring.
+
+      During those 5 minutes of observation, on average, how many degrees does the coffee’s temperature drop for every minute that passes?
+    answer:
+        value: -1.51
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how fast something is changing on average over a period of time, we calculate the <latex>average rate of change</latex>. This means we take the difference in the quantity we’re measuring and divide it by the time over which the change happens.
+
+          In general:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this case, we’re measuring how the temperature of the coffee changes over time. So the formula becomes:
+
+          <latex>
+          \text{Average cooling rate} = \frac{T(10) - T(5)}{10 - 5}
+          </latex>
+
+          Using the exponential cooling model:
+
+          <latex>
+          T(t) = T_{\text{env}} + (T_0 - T_{\text{env}}) e^{-kt}
+          </latex>
+
+          Where:
+
+          * <latex>T_0 = 85^\circ \text{C}</latex> (initial temperature of the coffee)
+          * <latex>T_{\text{env}} = 22^\circ \text{C}</latex> (room temperature)
+          * <latex>k = 0.03 \ \text{per minute}</latex>
+
+          Substitute into the formula:
+
+          <latex>
+          T(5) = 22 + (85 - 22) \cdot e^{-0.03 \cdot 5} \approx 60.76^\circ \text{C}
+          </latex>
+
+          <latex>
+          T(10) = 22 + (85 - 22) \cdot e^{-0.03 \cdot 10} \approx 53.23^\circ \text{C}
+          </latex>
+
+          Now compute the rate:
+
+          <latex>
+          \text{Average cooling rate} = \frac{53.23 - 60.76}{5} = \frac{-7.53}{5} = -1.51^\circ \text{C per minute}
+          </latex>
+
+          The <b>negative sign</b> tells us that the temperature is <b>decreasing</b> — the coffee is getting cooler as time goes on.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+    id: q1
+    title: Cooling of a cup of coffee
+    points: 3
+    text: |
+      When an object is hotter than its surroundings, it cools down gradually as it gives heat to the environment. This process can often be described by a rule called **Newton’s Law of Cooling**. According to this rule, the temperature of the object at any moment depends on how much warmer it is than the surrounding air, and it decreases exponentially over time. The equation that describes this is:
+
+      <latex>
+      T(t) = T_{\text{env}} + (T_0 - T_{\text{env}}) e^{-kt}
+      </latex>
+
+      In this equation:
+
+      * $T(t)$ is the temperature of the object at time $t$,
+      * $T_{\text{env}}$ is the constant temperature of the surrounding air,
+      * $T_0$ is the initial temperature of the object when cooling starts,
+      * $k$ is a constant that describes how quickly the object cools,
+      * $e$ is a mathematical constant approximately equal to 2.718.
+
+      You pour a fresh cup of coffee in your kitchen. When poured, the coffee’s temperature is 85°C, and the room temperature is 22°C. The cooling happens rather gently, with a cooling constant of 0.03 per minute. You start paying attention 5 minutes after pouring the coffee. At that point, the coffee has already cooled a bit, but is still warm. You keep checking for the next 5 minutes, from the 5th to the 10th minute after pouring.
+
+      During those 5 minutes of observation, on average, how many degrees does the coffee’s temperature drop for every minute that passes?
+    answer:
+        value: -1.51
+        tolerance: 0.05
+    feedback:
+        general: |
+          To find how fast something is changing on average over a period of time, we calculate the **average rate of change**. This means we take the difference in the quantity we’re measuring and divide it by the time over which the change happens.
+
+          In general:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this case, we’re measuring how the temperature of the coffee changes over time. So the formula becomes:
+
+          <latex>
+          \text{Average cooling rate} = \frac{T(10) - T(5)}{10 - 5}
+          </latex>
+
+          Using the exponential cooling model:
+
+          <latex>
+          T(t) = T_{\text{env}} + (T_0 - T_{\text{env}}) e^{-kt}
+          </latex>
+
+          Where:
+
+          * $T_0 = 85^\circ \text{C}$ (initial temperature of the coffee)
+          * $T_{\text{env}} = 22^\circ \text{C}$ (room temperature)
+          * $k = 0.03 \ \text{per minute}$
+
+          Substitute into the formula:
+
+          <latex>
+          T(5) = 22 + (85 - 22) \cdot e^{-0.03 \cdot 5} \approx 60.76^\circ \text{C}
+          </latex>
+
+          <latex>
+          T(10) = 22 + (85 - 22) \cdot e^{-0.03 \cdot 10} \approx 53.23^\circ \text{C}
+          </latex>
+
+          Now compute the rate:
+
+          <latex>
+          \text{Average cooling rate} = \frac{53.23 - 60.76}{5} = \frac{-7.53}{5} = -1.51^\circ \text{C per minute}
+          </latex>
+
+          The **negative sign** tells us that the temperature is **decreasing** — the coffee is getting cooler as time goes on.
+
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+
+    id: q2
+    title: Bacterial population growth
+    points: 3
+    text: |
+      When bacteria grow in a favorable environment with plenty of nutrients and space, their numbers can increase very rapidly. A commonly used rule to describe this kind of growth is called **exponential growth**. The equation for this is:
+
+      <latex>
+      N(t) = N_0 e^{rt}
+      </latex>
+
+      Here:
+
+      * $N(t)$ is the number of bacteria at time $t$,
+      * $N_0$ is the number of bacteria at the start,
+      * $r$ is a constant that tells how fast the bacteria multiply,
+      * $e$ is a mathematical constant approximately equal to 2.718.
+
+      A biology student is growing bacteria in a petri dish for an experiment. The dish starts with 500 bacteria. Under the favorable lab conditions, the bacteria double quickly, growing at a rate constant of 0.4 per hour. After letting the culture grow for 1 hour, the student takes the first measurement. Then she takes another measurement after a second hour has passed.
+
+      Between these two measurements (from hour 1 to hour 2), by how many bacteria per hour, on average, did the population increase?
+    answer:
+        value: 366.86
+        tolerance: 0.5
+    feedback:
+        general: |
+          To find how fast the bacterial population grows on average over time, we use the formula for average rate of change:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this case, we are measuring population growth over time:
+
+          <latex>
+          \text{Average growth rate} = \frac{N(2) - N(1)}{2 - 1}
+          </latex>
+
+          The population follows exponential growth:
+
+          <latex>
+          N(t) = N_0 e^{rt}
+          </latex>
+
+          Where:
+
+          * $N_0 = 500$ (initial number of bacteria)
+          * $r = 0.4 \ \text{per hour}$
+
+          Substitute values:
+
+          <latex>
+          N(1) = 500 \cdot e^{0.4 \cdot 1} \approx 745.91
+          </latex>
+
+          <latex>
+          N(2) = 500 \cdot e^{0.4 \cdot 2} \approx 1112.77
+          </latex>
+
+          <latex>
+          \text{Average growth rate} = \frac{1112.77 - 745.91}{1} = 366.86 \ \text{cells per hour}
+          </latex>
+
+          Since the population is increasing, the **rate is positive**, which makes sense — the bacteria are multiplying.
+
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q2
+    title: Bacterial population growth
+    points: 3
+    text: |
+      When bacteria grow in a favorable environment with plenty of nutrients and space, their numbers can increase very rapidly. A commonly used rule to describe this kind of growth is called **exponential growth**. The equation for this is:
+
+      <latex>
+      N(t) = N_0 e^{rt}
+      </latex>
+
+      Here:
+
+      * <latex>N(t)</latex> is the number of bacteria at time <latex>t</latex>,
+      * <latex>N_0</latex> is the number of bacteria at the start,
+      * <latex>r</latex> is a constant that tells how fast the bacteria multiply,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      A biology student is growing bacteria in a petri dish for an experiment. The dish starts with 500 bacteria. Under the favorable lab conditions, the bacteria double quickly, growing at a rate constant of 0.4 per hour. After letting the culture grow for 1 hour, the student takes the first measurement. Then she takes another measurement after a second hour has passed.
+
+      Between these two measurements (from hour 1 to hour 2), by how many bacteria per hour, on average, did the population increase?
+    answer:
+        value: 366.86
+        tolerance: 0.1
+    feedback:
+        general: |
+          To find how fast the bacterial population grows on average over time, we use the formula for average rate of change:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this case, we are measuring population growth over time:
+
+          <latex>
+          \text{Average growth rate} = \frac{N(2) - N(1)}{2 - 1}
+          </latex>
+
+          The population follows exponential growth:
+
+          <latex>
+          N(t) = N_0 e^{rt}
+          </latex>
+
+          Where:
+
+          * <latex>N_0 = 500</latex> (initial number of bacteria)
+          * <latex>r = 0.4 \ \text{per hour}</latex>
+
+          Substitute values:
+
+          <latex>
+          N(1) = 500 \cdot e^{0.4 \cdot 1} \approx 745.91
+          </latex>
+
+          <latex>
+          N(2) = 500 \cdot e^{0.4 \cdot 2} \approx 1112.77
+          </latex>
+
+          <latex>
+          \text{Average growth rate} = \frac{1112.77 - 745.91}{1} = 366.86 \ \text{cells per hour}
+          </latex>
+
+          Since the population is increasing, the <b>rate is positive</b>, which makes sense — the bacteria are multiplying.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+
+    id: q3
+    title: Radioactive decay
+    points: 3
+    text: |
+      Radioactive substances lose mass over time as their unstable atoms break down into more stable ones. This process follows a rule called **exponential decay**. The rule is described by the equation:
+
+      <latex>
+      M(t) = M_0 e^{-\lambda t}
+      </latex>
+
+      In this formula:
+
+      * $M(t)$ is the amount of substance remaining at time $t$,
+      * $M_0$ is the starting amount,
+      * $\lambda$ is the decay constant, which tells how quickly the substance decays,
+      * $e$ is a mathematical constant approximately equal to 2.718.
+
+      A scientist is observing a sample of a radioactive material that originally contains 100 milligrams of the substance. The decay constant for this material is 0.05 per hour. The scientist starts recording data when the sample has already been decaying for 5 hours. She then measures the amount of substance remaining at the 5th hour and again at the 7th hour.
+
+      Between these two moments, about how many milligrams of radioactive material disappear from the sample for every hour that passes?
+    answer:
+        value: -3.71
+        tolerance: 0.05
+    feedback:
+        general: |
+          To find how quickly the mass of a radioactive substance decreases, we again use the average rate of change formula:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          Here:
+
+          <latex>
+          \text{Average decay rate} = \frac{M(7) - M(5)}{7 - 5}
+          </latex>
+
+          The substance decays exponentially:
+
+          <latex>
+          M(t) = M_0 e^{-\lambda t}
+          </latex>
+
+          Where:
+
+          * $M_0 = 100 \ \text{mg}$ (initial mass)
+          * $\lambda = 0.05 \ \text{per hour}$
+
+          Substitute:
+
+          <latex>
+          M(5) = 100 \cdot e^{-0.05 \cdot 5} \approx 77.88
+          </latex>
+
+          <latex>
+          M(7) = 100 \cdot e^{-0.05 \cdot 7} \approx 70.47
+          </latex>
+
+          <latex>
+          \text{Average decay rate} = \frac{70.47 - 77.88}{2} = \frac{-7.41}{2} = -3.71 \ \text{mg per hour}
+          </latex>
+
+          The **negative sign** indicates that the mass is **decreasing**, as expected in a decay process.
+
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q3
+    title: Radioactive decay
+    points: 3
+    text: |
+      Radioactive substances lose mass over time as their unstable atoms break down into more stable ones. This process follows a rule called **exponential decay**. The rule is described by the equation:
+
+      <latex>
+      M(t) = M_0 e^{-\lambda t}
+      </latex>
+
+      In this formula:
+
+      * <latex>M(t)</latex> is the amount of substance remaining at time <latex>t</latex>,
+      * <latex>M_0</latex> is the starting amount,
+      * <latex>\lambda</latex> is the decay constant, which tells how quickly the substance decays,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      A scientist is observing a sample of a radioactive material that originally contains 100 milligrams of the substance. The decay constant for this material is 0.05 per hour. The scientist starts recording data when the sample has already been decaying for 5 hours. She then measures the amount of substance remaining at the 5th hour and again at the 7th hour.
+
+      Between these two moments, about how many milligrams of radioactive material disappear from the sample for every hour that passes?
+    answer:
+        value: -3.71
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how quickly the mass of a radioactive substance decreases, we again use the average rate of change formula:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          Here:
+
+          <latex>
+          \text{Average decay rate} = \frac{M(7) - M(5)}{7 - 5}
+          </latex>
+
+          The substance decays exponentially:
+
+          <latex>
+          M(t) = M_0 e^{-\lambda t}
+          </latex>
+
+          Where:
+
+          * <latex>M_0 = 100 \ \text{mg}</latex> (initial mass)
+          * <latex>\lambda = 0.05 \ \text{per hour}</latex>
+
+          Substitute:
+
+          <latex>
+          M(5) = 100 \cdot e^{-0.05 \cdot 5} \approx 77.88
+          </latex>
+
+          <latex>
+          M(7) = 100 \cdot e^{-0.05 \cdot 7} \approx 70.47
+          </latex>
+
+          <latex>
+          \text{Average decay rate} = \frac{70.47 - 77.88}{2} = \frac{-7.41}{2} = -3.71 \ \text{mg per hour}
+          </latex>
+
+          The <b>negative sign</b> indicates that the mass is <b>decreasing</b>, as expected in a decay process.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q6
+    title: Compound interest
+    points: 3
+    text: |
+      When money earns interest that is added to the balance regularly, the amount of money grows faster and faster because the interest is calculated on the growing balance itself. This process is described by **exponential growth**, using the rule:
+
+      <latex>
+      A(t) = A_0 e^{rt}
+      </latex>
+
+      In this equation:
+
+      * <latex>A(t)</latex> is the amount of money after time <latex>t</latex>,
+      * <latex>A_0</latex> is the initial amount of money invested,
+      * <latex>r</latex> is the annual interest rate (expressed as a decimal),
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      You open a savings account and deposit $1000. The bank offers a 6% annual interest rate, which means the money grows continuously at that rate. After 1 year, you check your account balance, and you check it again after another half year has passed.
+
+      Between year 1 and year 1.5, on average, how many dollars does your balance grow for every month that passes?
+    answer:
+        value: 5.39
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how fast the account balance grows on average over time, we calculate:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this context:
+
+          <latex>
+          \text{Average monthly growth} = \frac{A(1.5) - A(1)}{(1.5 - 1) \times 12}
+          </latex>
+
+          The balance grows according to continuous compound interest:
+
+          <latex>
+          A(t) = A_0 e^{rt}
+          </latex>
+
+          Where:
+
+          * <latex>A_0 = 1000 \ \text{USD}</latex>
+          * <latex>r = 0.06 \ \text{per year}</latex>
+
+          Substitute:
+
+          <latex>
+          A(1) = 1000 \cdot e^{0.06 \cdot 1} \approx 1061.84
+          </latex>
+
+          <latex>
+          A(1.5) = 1000 \cdot e^{0.06 \cdot 1.5} \approx 1093.53
+          </latex>
+
+          <latex>
+          \text{Average growth per month} = \frac{1093.53 - 1061.84}{6} = \frac{31.69}{6} \approx 5.39 \ \text{USD per month}
+          </latex>
+
+          The <b>positive value</b> tells us the account is <b>growing</b> over time, as expected with interest.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q5
+    title: Atmospheric pressure with altitude
+    points: 3
+    text: |
+      As you go higher above sea level, the air becomes thinner and the pressure decreases. This can be described using a rule called **exponential decay**. The rule for how pressure changes with altitude is:
+
+      <latex>
+      P(h) = P_0 e^{-kh}
+      </latex>
+
+      Here:
+
+      * <latex>P(h)</latex> is the air pressure at height <latex>h</latex>,
+      * <latex>P_0</latex> is the air pressure at sea level,
+      * <latex>k</latex> is a constant that shows how quickly pressure drops with altitude,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      A hiker starts at 1000 meters above sea level, where the air pressure is lower than at sea level but still comfortable. As she climbs higher to 1200 meters, the air becomes slightly thinner. For this region, the rate of decrease in pressure is governed by a decay constant of 0.00012 per meter.
+
+      Between 1000 meters and 1200 meters, for every additional meter climbed, by how many kilopascals, on average, does the air pressure drop?
+    answer:
+        value: -0.01
+        tolerance: 0.01
+    feedback:
+        general: |
+          We find how pressure changes as you go higher using:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final height} - \text{Initial height}}
+          </latex>
+
+          For this situation:
+
+          <latex>
+          \text{Average pressure change} = \frac{P(1200) - P(1000)}{1200 - 1000}
+          </latex>
+
+          Air pressure decreases exponentially with altitude:
+
+          <latex>
+          P(h) = P_0 e^{-kh}
+          </latex>
+
+          Where:
+
+          * <latex>P_0 = 101.3 \ \text{kPa}</latex>
+          * <latex>k = 0.00012 \ \text{per meter}</latex>
+
+          Substitute:
+
+          <latex>
+          P(1000) = 101.3 \cdot e^{-0.00012 \cdot 1000} \approx 90.35 \ \text{kPa}
+          </latex>
+
+          <latex>
+          P(1200) = 101.3 \cdot e^{-0.00012 \cdot 1200} \approx 88.24 \ \text{kPa}
+          </latex>
+
+          <latex>
+          \text{Average change} = \frac{88.24 - 90.35}{200} = \frac{-2.11}{200} = -0.01 \ \text{kPa per meter}
+          </latex>
+
+          The <b>negative sign</b> indicates that the pressure <b>decreases</b> as you climb higher in elevation.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q6
+    title: Compound interest
+    points: 3
+    text: |
+      When money earns interest that is added to the balance regularly, the amount of money grows faster and faster because the interest is calculated on the growing balance itself. This process is described by **exponential growth**, using the rule:
+
+      <latex>
+      A(t) = A_0 e^{rt}
+      </latex>
+
+      In this equation:
+
+      * <latex>A(t)</latex> is the amount of money after time <latex>t</latex>,
+      * <latex>A_0</latex> is the initial amount of money invested,
+      * <latex>r</latex> is the annual interest rate (expressed as a decimal),
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      You open a savings account and deposit $1000. The bank offers a 6% annual interest rate, which means the money grows continuously at that rate. After 1 year, you check your account balance, and you check it again after another half year has passed.
+
+      Between year 1 and year 1.5, on average, how many dollars does your balance grow for every month that passes?
+    answer:
+        value: 5.39
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how fast the account balance grows on average over time, we calculate:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this context:
+
+          <latex>
+          \text{Average monthly growth} = \frac{A(1.5) - A(1)}{(1.5 - 1) \times 12}
+          </latex>
+
+          The balance grows according to continuous compound interest:
+
+          <latex>
+          A(t) = A_0 e^{rt}
+          </latex>
+
+          Where:
+
+          * <latex>A_0 = 1000 \ \text{USD}</latex>
+          * <latex>r = 0.06 \ \text{per year}</latex>
+
+          Substitute:
+
+          <latex>
+          A(1) = 1000 \cdot e^{0.06 \cdot 1} \approx 1061.84
+          </latex>
+
+          <latex>
+          A(1.5) = 1000 \cdot e^{0.06 \cdot 1.5} \approx 1093.53
+          </latex>
+
+          <latex>
+          \text{Average growth per month} = \frac{1093.53 - 1061.84}{6} = \frac{31.69}{6} \approx 5.39 \ \text{USD per month}
+          </latex>
+
+          The <b>positive value</b> tells us the account is <b>growing</b> over time, as expected with interest.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q7
+    title: Deflection of a diving board
+    points: 3
+    text: |
+      When you step onto a diving board, it bends downward. The farther you walk toward the edge, the more it bends. For a diving board supported at one end and loaded at different points, the bending can be described using a cubic relationship:
+
+      <latex>
+      \delta(x) = \dfrac{P x^2 (3L - x)}{6EI}
+      </latex>
+
+      Here:
+
+      * <latex>\delta(x)</latex> is the downward deflection at distance <latex>x</latex> from the support,
+      * <latex>P</latex> is the force applied (your weight),
+      * <latex>L</latex> is the total length of the board,
+      * <latex>E</latex> is a property of the board’s material (stiffness),
+      * <latex>I</latex> is related to the board’s shape and size.
+
+      At the local pool, you step onto a 3-meter-long wooden diving board that flexes noticeably. You weigh 600 newtons. The diving board is made of a type of wood that has a stiffness of <latex>2 \times 10^{10} \ \text{Pa}</latex>, and the board’s shape gives it a bending property <latex>I = 5 \times 10^{-6} \ \text{m}^4</latex>. First, you stand 2 meters from the base of the board, and then you carefully step forward to 2.5 meters from the base.
+
+      Between those two positions, on average, by how many centimeters does the board bend downward for each additional 10 centimeters you move forward?
+    answer:
+        value: 0.25
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how much the board bends on average as you walk forward:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final deflection} - \text{Initial deflection}}{\text{Final position} - \text{Initial position}}
+          </latex>
+
+          We write:
+
+          <latex>
+          \text{Average deflection} = \frac{\delta(2.5) - \delta(2.0)}{(2.5 - 2.0) \times 10}
+          </latex>
+
+          The board deflects following:
+
+          <latex>
+          \delta(x) = \frac{P x^2 (3L - x)}{6EI}
+          </latex>
+
+          Where:
+
+          * <latex>P = 600 \ \text{N}</latex>
+          * <latex>L = 3 \ \text{m}</latex>
+          * <latex>E = 2 \times 10^{10} \ \text{Pa}</latex>
+          * <latex>I = 5 \times 10^{-6} \ \text{m}^4</latex>
+
+          Substitute:
+
+          <latex>
+          \delta(2.0) \approx 0.008 \ \text{m} = 0.8 \ \text{cm}, \quad \delta(2.5) \approx 0.0105 \ \text{m} = 1.05 \ \text{cm}
+          </latex>
+
+          <latex>
+          \text{Average deflection per 10 cm} = \frac{1.05 - 0.8}{0.5 \times 10} = \frac{0.25}{5} = 0.25 \ \text{cm per 10 cm}
+          </latex>
+
+          The <b>positive value</b> means that the board bends <b>more</b> as you walk farther from the base — which matches what we expect.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q8
+    title: Drug concentration in blood
+    points: 3
+    text: |
+      After a drug is taken, its concentration in the bloodstream usually decreases as the body processes and removes it. This decrease can be described by **exponential decay**:
+
+      <latex>
+      C(t) = C_0 e^{-kt}
+      </latex>
+
+      In this equation:
+
+      * <latex>C(t)</latex> is the drug concentration at time <latex>t</latex>,
+      * <latex>C_0</latex> is the initial concentration,
+      * <latex>k</latex> is a constant that describes how quickly the drug is cleared from the blood,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      A patient takes a dose of medicine, and right after it reaches the bloodstream, its concentration is 100 milligrams per liter. The body clears the drug with a constant rate of 0.3 per hour. A doctor measures the drug concentration at 1 hour and again at 2 hours after the dose was taken.
+
+      Between hour 1 and hour 2, on average, how many milligrams per liter does the concentration drop for every 10 minutes that go by?
+    answer:
+        value: -3.20
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how quickly the concentration drops after a dose, use:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this case:
+
+          <latex>
+          \text{Average drop per 10 min} = \frac{C(2) - C(1)}{(2 - 1) \times 6}
+          </latex>
+
+          The concentration follows:
+
+          <latex>
+          C(t) = C_0 e^{-kt}
+          </latex>
+
+          Where:
+
+          * <latex>C_0 = 100 \ \text{mg/L}</latex>
+          * <latex>k = 0.3 \ \text{per hour}</latex>
+
+          Substitute:
+
+          <latex>
+          C(1) = 100 \cdot e^{-0.3 \cdot 1} \approx 74.08
+          </latex>
+
+          <latex>
+          C(2) = 100 \cdot e^{-0.3 \cdot 2} \approx 54.88
+          </latex>
+
+          <latex>
+          \text{Average drop per 10 min} = \frac{54.88 - 74.08}{6} = \frac{-19.20}{6} \approx -3.20 \ \text{mg/L per 10 min}
+          </latex>
+
+          The <b>negative sign</b> tells us that the concentration is <b>decreasing</b> over time, which is typical as the body clears the drug.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q9
+    title: Temperature change with ocean depth
+    points: 3
+    text: |
+      When you dive into the ocean, the water often gets colder the deeper you go. This temperature change can often be described by **exponential decay**, especially near the surface:
+
+      <latex>
+      T(d) = T_{\text{deep}} + (T_{\text{surface}} - T_{\text{deep}}) e^{-kd}
+      </latex>
+
+      Here:
+
+      * <latex>T(d)</latex> is the temperature at depth <latex>d</latex>,
+      * <latex>T_{\text{surface}}</latex> is the temperature at the surface,
+      * <latex>T_{\text{deep}}</latex> is the temperature of deep ocean water,
+      * <latex>k</latex> is a constant that describes how quickly the temperature decreases with depth,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      While snorkeling on a tropical vacation, you dive into the ocean where the surface temperature is 25°C. Deeper down, the temperature eventually reaches a chilly 2°C. Near the surface, the temperature drops rapidly with a rate constant of 0.05 per meter. You dive down from a depth of 5 meters to 10 meters.
+
+      Between those two depths, for every additional meter you dive deeper, on average, how many degrees does the water temperature drop?
+    answer:
+        value: -0.79
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how fast the temperature drops with depth, we calculate:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final depth} - \text{Initial depth}}
+          </latex>
+
+          In this context:
+
+          <latex>
+          \text{Average temperature drop per meter} = \frac{T(10) - T(5)}{10 - 5}
+          </latex>
+
+          The temperature follows an exponential model:
+
+          <latex>
+          T(d) = T_{\text{deep}} + (T_{\text{surface}} - T_{\text{deep}}) e^{-kd}
+          </latex>
+
+          Where:
+
+          * <latex>T_{\text{surface}} = 25^\circ \text{C}</latex>
+          * <latex>T_{\text{deep}} = 2^\circ \text{C}</latex>
+          * <latex>k = 0.05 \ \text{per meter}</latex>
+
+          Substitute:
+
+          <latex>
+          T(5) = 2 + (25 - 2) \cdot e^{-0.05 \cdot 5} \approx 17.01^\circ \text{C}
+          </latex>
+
+          <latex>
+          T(10) = 2 + (25 - 2) \cdot e^{-0.05 \cdot 10} \approx 13.05^\circ \text{C}
+          </latex>
+
+          <latex>
+          \text{Average temperature drop} = \frac{13.05 - 17.01}{5} = \frac{-3.96}{5} \approx -0.79^\circ \text{C per meter}
+          </latex>
+
+          The <b>negative sign</b> shows the temperature is <b>decreasing</b> as you go deeper — the water gets colder with depth.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q10
+    title: Heart rate recovery after exercise
+    points: 3
+    text: |
+      After finishing exercise, your heart rate doesn’t instantly return to normal. Instead, it gradually drops back toward your resting level, following a process similar to **exponential decay**:
+
+      <latex>
+      H(t) = H_{\text{rest}} + (H_{\text{peak}} - H_{\text{rest}}) e^{-kt}
+      </latex>
+
+      In this formula:
+
+      * <latex>H(t)</latex> is the heart rate at time <latex>t</latex> after stopping exercise,
+      * <latex>H_{\text{peak}}</latex> is the highest heart rate reached during exercise,
+      * <latex>H_{\text{rest}}</latex> is the normal resting heart rate,
+      * <latex>k</latex> describes how quickly the heart rate recovers,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      An athlete finishes a run with her heart beating at 160 beats per minute. Her resting heart rate is 70 beats per minute. After stopping, her heart rate drops fairly quickly, with a recovery constant of 0.5 per minute. She checks her pulse after 2 minutes of resting, and again after 3 minutes.
+
+      Between the 2nd and 3rd minute of rest, on average, how many beats per minute does her heart rate drop for every 10 seconds that go by?
+    answer:
+        value: -2.17
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how quickly the heart rate drops after exercise, we compute:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final time} - \text{Initial time}}
+          </latex>
+
+          In this case:
+
+          <latex>
+          \text{Average drop per 10 seconds} = \frac{H(3) - H(2)}{(3 - 2) \times 6}
+          </latex>
+
+          The heart rate recovery follows:
+
+          <latex>
+          H(t) = H_{\text{rest}} + (H_{\text{peak}} - H_{\text{rest}}) e^{-kt}
+          </latex>
+
+          Where:
+
+          * <latex>H_{\text{peak}} = 160 \ \text{bpm}</latex>
+          * <latex>H_{\text{rest}} = 70 \ \text{bpm}</latex>
+          * <latex>k = 0.5 \ \text{per minute}</latex>
+
+          Substitute:
+
+          <latex>
+          H(2) = 70 + (160 - 70) \cdot e^{-0.5 \cdot 2} \approx 96.96 \ \text{bpm}
+          </latex>
+
+          <latex>
+          H(3) = 70 + (160 - 70) \cdot e^{-0.5 \cdot 3} \approx 85.94 \ \text{bpm}
+          </latex>
+
+          <latex>
+          \text{Average drop per 10 sec} = \frac{85.94 - 96.96}{6} = \frac{-11.02}{6} \approx -2.17 \ \text{bpm per 10 sec}
+          </latex>
+
+          The <b>negative sign</b> indicates the heart rate is <b>falling</b>, which makes sense as the body recovers after exercise.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q11
+    title: Temperature along a heated rod
+    points: 3
+    text: |
+      When heat is applied to the center of a rod, the temperature typically spreads outward, but it doesn’t spread evenly. In some cases, the temperature along the rod can be modeled by a **quadratic relationship**, meaning that the temperature changes with the square of the distance from the center:
+
+      <latex>
+      T(x) = T_0 - kx^2
+      </latex>
+
+      In this formula:
+
+      * <latex>T(x)</latex> is the temperature at position <latex>x</latex> along the rod,
+      * <latex>T_0</latex> is the maximum temperature at the hottest point (usually at the center),
+      * <latex>k</latex> is a constant that tells how quickly temperature drops as you move away from the center.
+
+      In a materials lab, a metal rod is heated strongly at its center, reaching a maximum temperature of 100°C right in the middle. As you move away from the center, the temperature drops following the quadratic rule, with a value of <latex>k = 5 \ \text{°C/m}^2</latex>. A student measures the temperature at a point 0.5 meters from the center and then again at 0.7 meters from the center.
+
+      Between those two points, for every additional 10 centimeters farther from the center, on average, how many degrees does the temperature decrease?
+    answer:
+        value: -0.60
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how fast the temperature changes along the rod, use:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final position} - \text{Initial position}}
+          </latex>
+
+          Here:
+
+          <latex>
+          \text{Average temperature drop per 10 cm} = \frac{T(0.7) - T(0.5)}{(0.7 - 0.5) \times 10}
+          </latex>
+
+          The temperature is modeled quadratically:
+
+          <latex>
+          T(x) = T_0 - kx^2
+          </latex>
+
+          Where:
+
+          * <latex>T_0 = 100^\circ \text{C}</latex> (center of the rod)
+          * <latex>k = 5^\circ \text{C}/\text{m}^2</latex>
+
+          Substitute:
+
+          <latex>
+          T(0.5) = 100 - 5 \cdot (0.5)^2 = 98.75^\circ \text{C}
+          </latex>
+
+          <latex>
+          T(0.7) = 100 - 5 \cdot (0.7)^2 = 97.55^\circ \text{C}
+          </latex>
+
+          <latex>
+          \text{Average drop per 10 cm} = \frac{97.55 - 98.75}{2} = \frac{-1.20}{2} = -0.60^\circ \text{C per 10 cm}
+          </latex>
+
+          The <b>negative sign</b> shows the temperature is <b>decreasing</b> as you move farther from the hot center of the rod.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q12
+    title: Fish population along a river
+    points: 3
+    text: |
+      As pollution spreads downstream in a river, the fish population can decrease. This decrease can often be described by **exponential decay**, where the number of fish declines as distance downstream increases:
+
+      <latex>
+      D(x) = D_0 e^{-kx}
+      </latex>
+
+      Here:
+
+      * <latex>D(x)</latex> is the fish density (fish per kilometer) at distance <latex>x</latex> downstream,
+      * <latex>D_0</latex> is the fish density near the pollution source,
+      * <latex>k</latex> is a constant that describes how fast the population decreases with distance,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      An environmental scientist studies fish populations along a polluted stretch of river. Close to the pollution source, the river has 200 fish per kilometer. The pollution reduces the fish population at a rate of <latex>k = 0.3 \ \text{km}^{-1}</latex>. The scientist surveys the population starting 2 kilometers downstream and again at 3 kilometers downstream.
+
+      Between those two locations, for every additional kilometer downstream, on average, by how many fish per kilometer does the fish density decrease?
+    answer:
+        value: -28.45
+        tolerance: 0.1
+    feedback:
+        general: |
+          To find how fast the fish population changes as we move downstream, we use:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final distance} - \text{Initial distance}}
+          </latex>
+
+          Here:
+
+          <latex>
+          \text{Average decrease per km} = \frac{D(3) - D(2)}{3 - 2}
+          </latex>
+
+          Fish density follows exponential decay:
+
+          <latex>
+          D(x) = D_0 e^{-kx}
+          </latex>
+
+          Where:
+
+          * <latex>D_0 = 200 \ \text{fish/km}</latex>
+          * <latex>k = 0.3 \ \text{per km}</latex>
+
+          Substitute:
+
+          <latex>
+          D(2) = 200 \cdot e^{-0.3 \cdot 2} \approx 109.76
+          </latex>
+
+          <latex>
+          D(3) = 200 \cdot e^{-0.3 \cdot 3} \approx 81.31
+          </latex>
+
+          <latex>
+          \text{Average rate} = \frac{81.31 - 109.76}{1} = -28.45 \ \text{fish/km per km}
+          </latex>
+
+          The <b>negative sign</b> shows the population is <b>decreasing</b> downstream — fish become scarcer as pollution spreads.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q13
+    title: Humidity as a function of altitude
+    points: 3
+    text: |
+      As you rise higher into the atmosphere, the amount of moisture in the air usually decreases. This reduction in humidity can be described using **exponential decay**:
+
+      <latex>
+      H(h) = H_0 e^{-kh}
+      </latex>
+
+      In this equation:
+
+      * <latex>H(h)</latex> is the relative humidity at height <latex>h</latex>,
+      * <latex>H_0</latex> is the humidity at ground level,
+      * <latex>k</latex> describes how fast the humidity drops with altitude,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      A weather balloon ascends into the atmosphere on a humid morning where the ground-level humidity is 80%. As the balloon rises, the humidity drops with a constant of <latex>k = 0.0015 \ \text{m}^{-1}</latex>. The balloon measures the humidity at 500 meters and again at 600 meters.
+
+      Between these two altitudes, for every 10 meters the balloon ascends, on average, how many percentage points does the humidity decrease?
+    answer:
+        value: -0.53
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how fast the humidity drops as altitude increases, use:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final height} - \text{Initial height}}
+          </latex>
+
+          Here:
+
+          <latex>
+          \text{Average drop per 10 m} = \frac{H(600) - H(500)}{(600 - 500)/10}
+          </latex>
+
+          Humidity decays exponentially:
+
+          <latex>
+          H(h) = H_0 e^{-kh}
+          </latex>
+
+          Where:
+
+          * <latex>H_0 = 80\%</latex>
+          * <latex>k = 0.0015 \ \text{per m}</latex>
+
+          Substitute:
+
+          <latex>
+          H(500) = 80 \cdot e^{-0.0015 \cdot 500} \approx 37.79\%
+          </latex>
+
+          <latex>
+          H(600) = 80 \cdot e^{-0.0015 \cdot 600} \approx 32.53\%
+          </latex>
+
+          <latex>
+          \text{Average drop} = \frac{32.53 - 37.79}{10} = -0.53\% \text{ per 10 m}
+          </latex>
+
+          The <b>negative sign</b> means humidity <b>decreases</b> with height — the air gets drier as the balloon rises.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q14
+    title: Crop yield vs. fertilizer amount
+    points: 3
+    text: |
+      When farmers add fertilizer to their fields, crop yield usually increases at first but then levels off as plants can’t use extra fertilizer beyond a certain point. This pattern is described by a **saturating curve** often called a Michaelis-Menten relationship:
+
+      <latex>
+      Y(F) = \dfrac{aF}{b + F}
+      </latex>
+
+      Here:
+
+      * <latex>Y(F)</latex> is the crop yield,
+      * <latex>F</latex> is the amount of fertilizer added,
+      * <latex>a</latex> is the maximum possible yield,
+      * <latex>b</latex> is a constant related to how much fertilizer is needed to reach half the maximum yield.
+
+      A farmer tests how much wheat can be grown in a field depending on how much fertilizer is applied. The maximum achievable yield is 120 kilograms per hectare. The amount of fertilizer that brings the yield halfway to the maximum is 20 kilograms. The farmer applies 10 kilograms of fertilizer at first, then increases it to 20 kilograms.
+
+      Between those two fertilizer amounts, for every additional kilogram of fertilizer added, on average, how many extra kilograms of wheat are harvested per hectare?
+    answer:
+        value: 2.0
+        tolerance: 0.01
+    feedback:
+        general: |
+          To find how much the crop yield increases with fertilizer, we compute:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final fertilizer} - \text{Initial fertilizer}}
+          </latex>
+
+          Here:
+
+          <latex>
+          \text{Average yield increase per kg} = \frac{Y(20) - Y(10)}{20 - 10}
+          </latex>
+
+          The yield follows a saturating curve:
+
+          <latex>
+          Y(F) = \frac{aF}{b + F}
+          </latex>
+
+          Where:
+
+          * <latex>a = 120 \ \text{kg/ha}</latex>, <latex>b = 20 \ \text{kg}</latex>
+
+          Substitute:
+
+          <latex>
+          Y(10) = \frac{120 \cdot 10}{20 + 10} = 40
+          </latex>
+
+          <latex>
+          Y(20) = \frac{120 \cdot 20}{20 + 20} = 60
+          </latex>
+
+          <latex>
+          \text{Average increase} = \frac{60 - 40}{10} = 2.0 \ \text{kg/ha per kg}
+          </latex>
+
+          The <b>positive value</b> shows the yield <b>increases</b> with fertilizer — though this rate will slow down beyond 20 kg.
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q15
+    title: Light absorption in tinted window
+    points: 3
+    text: |
+      As light passes through tinted glass, some of it is absorbed, so less light makes it through. The amount of light that gets through can be described by the **Beer-Lambert Law**, which uses exponential decay:
+
+      <latex>
+      I(d) = I_0 e^{-\alpha d}
+      </latex>
+
+      In this formula:
+
+      * <latex>I(d)</latex> is the light intensity after passing through glass of thickness <latex>d</latex>,
+      * <latex>I_0</latex> is the light intensity before entering the glass,
+      * <latex>\alpha</latex> is a constant that describes how strongly the glass absorbs light,
+      * <latex>e</latex> is a mathematical constant approximately equal to 2.718.
+
+      An engineer is testing tinted car windows. A beam of light with intensity 100 units strikes the window. The tint absorbs light strongly, with an absorption constant of <latex>\alpha = 0.8 \ \text{mm}^{-1}</latex>. The engineer measures how much light passes through 2 millimeters of glass, and then through 3 millimeters.
+
+      Between those two thicknesses, for every additional 0.1 millimeter of glass thickness, on average, how many units of light intensity are lost?
+    answer:
+        value: -1.11
+        tolerance: 0.01
+    feedback:
+        general: |
+          To measure how much light intensity drops as the glass gets thicker:
+
+          <latex>
+          \text{Average rate of change} = \frac{\text{Final value} - \text{Initial value}}{\text{Final thickness} - \text{Initial thickness}}
+          </latex>
+
+          We write:
+
+          <latex>
+          \text{Average drop per 0.1 mm} = \frac{I(3) - I(2)}{(3 - 2) \times 10}
+          </latex>
+
+          Light follows exponential absorption:
+
+          <latex>
+          I(d) = I_0 e^{-\alpha d}
+          </latex>
+
+          Where:
+
+          * <latex>I_0 = 100</latex>, <latex>\alpha = 0.8 \ \text{per mm}</latex>
+
+          Substitute:
+
+          <latex>
+          I(2) = 100 \cdot e^{-0.8 \cdot 2} \approx 20.19
+          </latex>
+
+          <latex>
+          I(3) = 100 \cdot e^{-0.8 \cdot 3} \approx 9.07
+          </latex>
+
+          <latex>
+          \text{Average drop per 0.1 mm} = \frac{9.07 - 20.19}{10} = -1.11 \ \text{units per 0.1 mm}
+          </latex>
+
+          The <b>negative sign</b> indicates the light is <b>absorbed more</b> as glass gets thicker — less gets through.
+        on_correct: Good job!
+        on_incorrect: Try again!

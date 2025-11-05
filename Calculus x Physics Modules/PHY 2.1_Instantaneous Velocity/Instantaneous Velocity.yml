@@ -1,0 +1,247 @@
+bank_info:
+    title: Instantaneous Velocity Calculation
+    bank_id: CAL1-PHY1-IVCALC-07252025 #Subject-Unit-Abbreviation_of_title_or_any_string-date
+    description: |-
+      This problem bank contains isomorphic problems asking students to calculate instantaneous velocity using a difference quotient. Those problems are intended to be used in a physics learning module. The physics learning module is intended to accompany a calculus learning module prior to the introduction of the concept of derivatives.
+    date_created: 07-25-2025 # Today's date 
+    generation prompts: # The following are the prompts that generated the questions in the problem bank.
+        - prompt 1: |
+            I would like to create problems that ask students to calculate instantaneous velocity at a point in time, given the position-time function as a 3rd order polynomial. First, generate 5 problems with the following requirements:
+                1. The problem should be about an object moving in 1-D. Start with describing the context in 1-2 sentences. Avoid scenarios in which the acceleration is constant, such as free fall.
+                2. Don't always use x(t) as the dependent variable, use context appropriate variables.
+                3. Explain how the distance/height/length etc. is being measured. i.e. from which point is it being measured.
+                4. Ask students to retain the sign of the answer to indicate the direction of velocity.
+        - prompt 2: | # gpt-o4-mini
+            Next, use python to solve each problem, list the title, the time and the velocity (with units) in a table. Then judge if the velocity is reasonable for the given problem context.
+        - prompt 3: | # gpt-o4-mini
+            For each problem for which the answer is unreasonable, update the polynomial so that the velocity found is reasonable for the problem context.
+        - prompt 4: |
+            Re-write those five problems in markdown format.
+        - prompt 5: |
+            Write student facing solutions for the first problem. The solutions should start with the definition of velocity as the change in position over time, then construct a difference quotient from t to t+\Delta t, and taking the limit as \Delta t goes to zero. Do not include numerical calculation details in the solution, but include the numerical answer from the table above.
+        - prompt 5.1: |
+            Write solutions for the next two problems in the same format.
+
+        - formatting prompt: "./YAML_formatting_prompt.md"
+    associated data:
+        - random number generation script: "./PHY1-F-OFKF-030625-script.py"
+    generation details: # Details of the creation process
+            model: GPT-4o # The model used to generate the questions
+            version: 0.0.1 # The version of the model used
+            last updated: 03-06-2025 # The date of the last update of the generation prompts.
+    authors:
+        - Zhongzhou Chen
+
+questions:
+# The following contents should be copy-pasted from the output of the LLM.
+- numerical:
+    id: q1
+    title: Water Droplet on a Leaf
+    points: 3
+    text: |
+      A biologist is tracking a water droplet sliding along a long, slightly curved leaf. The distance <latex>s(t)</latex> (in cm) from the stem of the leaf to the droplet at time <latex>t</latex> seconds is given by:
+      <latex>
+      s(t) = 0.05\,t^3 - 0.3\,t^2 + 1.2\,t + 2
+      </latex>
+      What is the instantaneous velocity of the droplet at <latex>t = 4</latex> seconds?
+      Retain the sign of your answer to indicate the direction of movement along the leaf.
+    answer:
+        value: 1.20
+        tolerance: 0.01
+    feedback:
+        general: |
+          The instantaneous velocity at a specific moment is defined as the rate of change of position with respect to time. Mathematically, for a position function <latex>s(t)</latex>, the instantaneous velocity at time <latex>t</latex> is:
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{s(t+\Delta t) - s(t)}{\Delta t}
+          </latex>
+          In this problem, the position of the water droplet as a function of time is given by:
+          <latex>
+          s(t) = 0.05\,t^3 - 0.3\,t^2 + 1.2\,t + 2
+          </latex>
+          To find the instantaneous velocity at <latex>t = 4\,\mathrm{s}</latex>:
+          1. **Write the difference quotient:**
+             <latex>
+             v(4) = \lim_{\Delta t \to 0} \frac{s(4+\Delta t) - s(4)}{\Delta t}
+             </latex>
+          2. **Substitute the position function:**
+             <latex>
+             v(4) = \lim_{\Delta t \to 0} \frac{[0.05\,(4+\Delta t)^3 - 0.3\,(4+\Delta t)^2 + 1.2\,(4+\Delta t) + 2] - [0.05\,(4)^3 - 0.3\,(4)^2 + 1.2\,(4) + 2]}{\Delta t}
+             </latex>
+          3. **Take the limit as <latex>\Delta t \to 0</latex>:**
+             This process gives the derivative of <latex>s(t)</latex> with respect to <latex>t</latex> at <latex>t = 4</latex>.
+          4. **Final Answer:**
+             The instantaneous velocity of the droplet at <latex>t = 4\,\mathrm{s}</latex> is
+             <latex>v(4) = 1.20\,\mathrm{cm/s}</latex>.
+             (The positive sign indicates the droplet is moving away from the stem at this instant.)
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q2
+    title: Cargo Robot on a Track
+    points: 3
+    text: |
+      A small cargo robot moves back and forth on a straight warehouse track. The distance <latex>d(t)</latex> (in m) is measured from the left end of the track and given by:
+      <latex>
+      d(t) = -0.1\,t^3 + 0.9\,t^2 - 1.5\,t + 4
+      </latex>
+      What is the instantaneous velocity of the robot at <latex>t = 2</latex> seconds?
+      Keep the sign of your answer positive toward the right end.
+    answer:
+        value: 0.90
+        tolerance: 0.01
+    feedback:
+        general: |
+          The instantaneous velocity is defined as the rate of change of position with respect to time. For a position function <latex>d(t)</latex>, the velocity at time <latex>t</latex> is:
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{d(t+\Delta t) - d(t)}{\Delta t}
+          </latex>
+          Here, the position function is:
+          <latex>
+          d(t) = -0.1\,t^3 + 0.9\,t^2 - 1.5\,t + 4
+          </latex>
+          To find the instantaneous velocity at <latex>t = 2\,\mathrm{s}</latex>:
+          1. **Write the difference quotient:**
+             <latex>
+             v(2) = \lim_{\Delta t \to 0} \frac{d(2+\Delta t) - d(2)}{\Delta t}
+             </latex>
+          2. **Substitute the position function:**
+             <latex>
+             v(2) = \lim_{\Delta t \to 0} \frac{\big[-0.1\,(2+\Delta t)^3 + 0.9\,(2+\Delta t)^2 - 1.5\,(2+\Delta t) + 4\big] - \big[-0.1\,(2)^3 + 0.9\,(2)^2 - 1.5\,(2) + 4\big]}{\Delta t}
+             </latex>
+          3. **Take the limit as <latex>\Delta t \to 0</latex>:**
+             This is equivalent to finding the derivative of <latex>d(t)</latex> at <latex>t = 2</latex>.
+          4. **Final Answer:**
+             The instantaneous velocity of the robot at <latex>t = 2\,\mathrm{s}</latex> is
+             <latex>v(2) = 0.90\,\mathrm{m/s}</latex>.
+             (The positive sign means the robot is moving toward the right end of the track at this instant.)
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q3
+    title: Piston in an Engine
+    points: 3
+    text: |
+      In a lab prototype, the height <latex>h(t)</latex> (in cm) of a piston above the engine base is modeled by:
+      <latex>
+      h(t) = 36\,t^3 - 5\,t^2 + 3\,t + 10
+      </latex>
+      where <latex>t</latex> is in seconds.
+      What is the instantaneous velocity of the piston at <latex>t = 1</latex> second?
+      Retain the sign to indicate whether the piston is moving upward (positive) or downward (negative).
+    answer:
+        value: 101
+        tolerance: 0.1
+    feedback:
+        general: |
+          The instantaneous velocity of the piston is the rate at which its height changes with time. For a height function <latex>h(t)</latex>, the instantaneous velocity at time <latex>t</latex> is:
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{h(t+\Delta t) - h(t)}{\Delta t}
+          </latex>
+          The height of the piston is given by:
+          <latex>
+          h(t) = 36\,t^3 - 5\,t^2 + 3\,t + 10
+          </latex>
+          To find the instantaneous velocity at <latex>t = 1\,\mathrm{s}</latex>:
+          1. **Write the difference quotient:**
+             <latex>
+             v(1) = \lim_{\Delta t \to 0} \frac{h(1+\Delta t) - h(1)}{\Delta t}
+             </latex>
+          2. **Substitute the height function:**
+             <latex>
+             v(1) = \lim_{\Delta t \to 0} \frac{\big[36\,(1+\Delta t)^3 - 5\,(1+\Delta t)^2 + 3\,(1+\Delta t) + 10\big] - \big[36\,(1)^3 - 5\,(1)^2 + 3\,(1) + 10\big]}{\Delta t}
+             </latex>
+          3. **Take the limit as <latex>\Delta t \to 0</latex>:**
+             This process gives the derivative of <latex>h(t)</latex> with respect to <latex>t</latex> at <latex>t = 1</latex>.
+          4. **Final Answer:**
+             The instantaneous velocity of the piston at <latex>t = 1\,\mathrm{s}</latex> is
+             <latex>v(1) = 101\,\mathrm{cm/s}</latex>.
+             (The positive sign indicates the piston is moving upward at this instant.)
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q4
+    title: Slime Mold Expansion
+    points: 3
+    text: |
+      Scientists track how a slime mold spreads across a petri dish. The radius <latex>r(t)</latex> (in mm) from the center to the leading edge is:
+      <latex>
+      r(t) = 0.02\,t^3 - 0.1\,t^2 + 0.8\,t + 5
+      </latex>
+      where <latex>t</latex> is in hours.
+      What is the instantaneous velocity of the edge of the mold at <latex>t = 3</latex> hours?
+      Keep the sign to indicate the direction of growth (positive means expanding outward from the center).
+    answer:
+        value: 0.74
+        tolerance: 0.01
+    feedback:
+        general: |
+          The instantaneous velocity is defined as the rate at which the position changes with respect to time. For a radius function <latex>r(t)</latex>, the velocity at time <latex>t</latex> is:
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{r(t+\Delta t) - r(t)}{\Delta t}
+          </latex>
+          The radius of the slime mold’s edge is given by:
+          <latex>
+          r(t) = 0.02\,t^3 - 0.1\,t^2 + 0.8\,t + 5
+          </latex>
+          To find the instantaneous velocity at <latex>t = 3\,\mathrm{h}</latex>:
+          1. **Write the difference quotient:**
+             <latex>
+             v(3) = \lim_{\Delta t \to 0} \frac{r(3+\Delta t) - r(3)}{\Delta t}
+             </latex>
+          2. **Substitute the radius function:**
+             <latex>
+             v(3) = \lim_{\Delta t \to 0} \frac{\big[0.02\,(3+\Delta t)^3 - 0.1\,(3+\Delta t)^2 + 0.8\,(3+\Delta t) + 5\big] - \big[0.02\,(3)^3 - 0.1\,(3)^2 + 0.8\,(3) + 5\big]}{\Delta t}
+             </latex>
+          3. **Take the limit as <latex>\Delta t \to 0</latex>:**
+             This process gives the derivative of <latex>r(t)</latex> at <latex>t = 3</latex>.
+          4. **Final Answer:**
+             The instantaneous velocity of the edge of the mold at <latex>t = 3\,\mathrm{h}</latex> is
+             <latex>v(3) = 0.74\,\mathrm{mm/h}</latex>.
+             (The positive sign indicates the mold is expanding outward from the center.)
+        on_correct: Good job!
+        on_incorrect: Try again!
+
+- numerical:
+    id: q5
+    title: Cable Car Ascent
+    points: 3
+    text: |
+      A cable car moves vertically relative to the base station. Its height <latex>y(t)</latex> (in m) at time <latex>t</latex> minutes is
+      <latex>
+      y(t) = t^3 + 2\,t^2 + 5\,t + 20
+      </latex>
+      What is the instantaneous velocity of the cable car at <latex>t = 5</latex> minutes?
+      Retain the sign to indicate whether the car is moving upward (positive) or downward (negative).
+    answer:
+        value: 100
+        tolerance: 0.1
+    feedback:
+        general: |
+          The instantaneous velocity is the rate at which the cable car’s height changes with respect to time. For a height function <latex>y(t)</latex>, the velocity at time <latex>t</latex> is:
+          <latex>
+          v(t) = \lim_{\Delta t \to 0} \frac{y(t+\Delta t) - y(t)}{\Delta t}
+          </latex>
+          The vertical position of the cable car is:
+          <latex>
+          y(t) = t^3 + 2\,t^2 + 5\,t + 20
+          </latex>
+          To find the instantaneous velocity at <latex>t = 5\,\mathrm{min}</latex>:
+          1. **Write the difference quotient:**
+             <latex>
+             v(5) = \lim_{\Delta t \to 0} \frac{y(5+\Delta t) - y(5)}{\Delta t}
+             </latex>
+          2. **Substitute the height function:**
+             <latex>
+             v(5) = \lim_{\Delta t \to 0} \frac{(5+\Delta t)^3 + 2\,(5+\Delta t)^2 + 5\,(5+\Delta t) + 20 - [5^3 + 2\times 5^2 + 5\times 5 + 20]}{\Delta t}
+             </latex>
+          3. **Take the limit as <latex>\Delta t \to 0</latex>:**
+             This process gives the derivative of <latex>y(t)</latex> at <latex>t = 5</latex>.
+          4. **Final Answer:**
+             The instantaneous velocity of the cable car at <latex>t = 5\,\mathrm{min}</latex> is
+             <latex>v(5) = 100\,\mathrm{m/min}</latex>.
+             (The positive sign indicates the cable car is moving upward at this instant.)
+        on_correct: Good job!
+        on_incorrect: Try again!
