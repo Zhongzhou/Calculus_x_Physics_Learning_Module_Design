@@ -11,11 +11,17 @@ This Repository contains prototype design of online learning modules at the inte
         * Topic: Velocity and Acceleration in 1D
         * Involve more sophisticated calculus than most existing Physics I textbook
         * Connects naturally from math modules
-
+* The formative isomorphic problem banks and the instructional content are both generated with the assistance of Generative AI (ChatGPT).
 ## File Structure.
-
-## Yaml document specifications:
-
+* Each module is contained in its own folder and contain one sub-folder and four files
+    * **A markdown** file (for example: instruction.md), containing the AI generated markdown for the instructional text and image.
+    * **An instruction.pdf** file, which is the pdf preview of the instructional content.
+    * **A .yml yaml** file. Contains the complete formative problem bank, and the generation prompts.
+    * **A problembank.pdf** file which provides a preview of some of the problems in the problem bank. =
+    * **A Figures** folder, containing the AI generated images used in the instruction.
+## Yaml storage format:
+* Each problem bank file contains GenAI prompts for future expansion or replication.
+* This yaml format is based largely on https://ybe.readthedocs.io/en/latest/
 
 ## Acknowledgement
 The contents of this repository was created by Dr. Zhongzhou Chen with the generous support of the Gates Foundation.
